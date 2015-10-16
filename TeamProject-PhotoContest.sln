@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoContest.Models", "PhotoContest.Models\PhotoContest.Models.csproj", "{AFCCE013-29C9-47D7-A2E4-39CF6C400257}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoContest.Data", "PhotoContest.Data\PhotoContest.Data.csproj", "{96FE40C6-8D1D-4FF2-A831-A8CAE89088B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoContest.App", "PhotoContest.App\PhotoContest.App.csproj", "{4A53D6CD-F675-4769-8952-F6F0833EA806}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFCCE013-29C9-47D7-A2E4-39CF6C400257}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFCCE013-29C9-47D7-A2E4-39CF6C400257}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFCCE013-29C9-47D7-A2E4-39CF6C400257}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFCCE013-29C9-47D7-A2E4-39CF6C400257}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96FE40C6-8D1D-4FF2-A831-A8CAE89088B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96FE40C6-8D1D-4FF2-A831-A8CAE89088B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96FE40C6-8D1D-4FF2-A831-A8CAE89088B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96FE40C6-8D1D-4FF2-A831-A8CAE89088B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A53D6CD-F675-4769-8952-F6F0833EA806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A53D6CD-F675-4769-8952-F6F0833EA806}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A53D6CD-F675-4769-8952-F6F0833EA806}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A53D6CD-F675-4769-8952-F6F0833EA806}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

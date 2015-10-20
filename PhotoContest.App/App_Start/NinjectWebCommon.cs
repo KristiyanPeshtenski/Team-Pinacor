@@ -1,5 +1,4 @@
-using PhotoContest.Data;
-using PhotoContest.Data.UnitOfWork;
+
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(PhotoContest.App.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(PhotoContest.App.App_Start.NinjectWebCommon), "Stop")]
@@ -8,6 +7,8 @@ namespace PhotoContest.App.App_Start
 {
     using System;
     using System.Web;
+    using Data;
+    using Data.UnitOfWork;
 
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 

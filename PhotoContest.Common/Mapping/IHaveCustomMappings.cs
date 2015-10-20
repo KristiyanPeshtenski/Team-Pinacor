@@ -1,4 +1,4 @@
-﻿namespace VGGLinkedIn.Common.Mappings
+﻿namespace PhotoContest.Common.Mappings
 {
     using AutoMapper;
 

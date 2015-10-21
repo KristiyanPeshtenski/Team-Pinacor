@@ -1,4 +1,4 @@
-﻿namespace VGGLinkedIn.Common.Mappings
+﻿namespace PhotoContest.Common.Mappings
 {
     using System;
     using System.Collections.Generic;

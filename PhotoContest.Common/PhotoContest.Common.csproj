@@ -44,12 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mapping\AutoMapperConfig.cs" />
-    <Compile Include="Mapping\IHaveCustomMappings.cs" />
-    <Compile Include="Mapping\IMapFrom.cs" />
-    <Compile Include="Mapping\IMapTo.cs" />
+    <Compile Include="Mappings\AutoMapperConfig.cs" />
+    <Compile Include="Mappings\IHaveCustomMappings.cs" />
+    <Compile Include="Mappings\IMapFrom.cs" />
+    <Compile Include="Mappings\IMapTo.cs" />
+    <Compile Include="Mappings\TypesMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Mapping\TypesMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,0 +1,10 @@
+﻿@model PhotoContest.App.ViewModels.ContestViewModel
+
+<div class="col-md-4">
+    <h3>@Model.Title</h3>
+    <p>@Model.Description</p>
+    <p>Created on: @String.Format("{0:M/d/yyyy}", @Model.DateCreated)</p>
+    <p>End: @String.Format("{0:M/d/yyyy}", @Model.DateEnd)</p>
+
+</div>
+

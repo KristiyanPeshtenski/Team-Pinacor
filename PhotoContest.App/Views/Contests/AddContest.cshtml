@@ -1,0 +1,60 @@
+﻿@model PhotoContest.App.BindingModels.AddContestBindingModel
+@{
+    ViewBag.Title = "Add Contest";
+}
+
+<div class="col-md-offset-4">
+    <h3>@ViewBag.Title</h3>
+</div>
+<div class="row">
+    <div class="col-md-10">
+        @using (Html.BeginForm("AddContest", "Contests", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(x => x.Title, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.Title, new { @class = "form-control", id = "Title" })
+                    @Html.ValidationMessageFor(x => x.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Description, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.RewardStrategy, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8"></div>
+                @Html.EnumDropDownListFor(x => x.RewardStrategy, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.DeadLineStrategy, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.EnumDropDownListFor(x => x.DeadLineStrategy, new { @class = "form-control" })
+
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.ParticipationStrategy, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.EnumDropDownListFor(x => x.ParticipationStrategy, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.VotingStrategy, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.EnumDropDownListFor(x => x.VotingStrategy, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-controll">
+                <div class="col-md-offset-4">
+                    <input type="submit" value="Add Contest" class="btn btn-primary" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

@@ -41,7 +41,7 @@
 
         public ParticipationStrategy ParticipationStrategy { get; set; }
 
-        public RewardStrategy RewarStrategy { get; set; }
+        public RewardStrategy RewardStrategy { get; set; }
 
         public ICollection<User> Participants
         {

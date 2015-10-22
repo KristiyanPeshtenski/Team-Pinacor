@@ -1,5 +1,4 @@
-﻿
-namespace PhotoContest.App.ViewModels
+﻿namespace PhotoContest.App.ViewModels
 {
     using Common.Mappings;
     using PhotoContest.Models;

@@ -71,5 +71,18 @@ namespace PhotoContest.App.Controllers
 
             return this.View(model);
         }
+
+        public ActionResult OwnContests()
+        {
+            var userId = this.UserProfile.Id;
+            var ownContests = this.Data.Contests
+                .All()
+                .Where(x => x.CreatorId == userId && (x.DateCreated < x.DateEnd || x.DateEnd == null))
+                .Project()
+                .To<ContestViewModel>();
+
+            return this.View(ownContests);
+
+        }
     }
 }

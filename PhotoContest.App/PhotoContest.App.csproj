@@ -202,7 +202,9 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ContestDetailsViewModel .cs" />
     <Compile Include="ViewModels\ContestViewModel.cs" />
+    <Compile Include="ViewModels\PhotoViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -271,6 +273,7 @@
     <Content Include="Views\Shared\DisplayTemplates\ContestViewModel.cshtml" />
     <Content Include="Views\Contests\Past.cshtml" />
     <None Include="Views\Contests\AddContest.cshtml" />
+    <None Include="Views\Contests\OwnContests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

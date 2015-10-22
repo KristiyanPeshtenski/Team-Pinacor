@@ -53,10 +53,5 @@
 
             return this.View(model);
         }
-
-        public ActionResult Details(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Data;
-
-namespace PhotoContest.App.Controllers
+﻿namespace PhotoContest.App.Controllers
 {
+    using System;
     using System.Web.Mvc;
     using Data.UnitOfWork;
     using System.Linq;
@@ -26,7 +24,6 @@ namespace PhotoContest.App.Controllers
                 .To<ContestViewModel>();
 
             return View(activeContests);
-
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace PhotoContest.App.Controllers
+﻿using System.Data.Entity;
+using AutoMapper;
+
+namespace PhotoContest.App.Controllers
 {
     using System;
     using System.Web.Mvc;
@@ -31,10 +34,25 @@
             return View(pastContests);
         }
 
+        [AllowAnonymous]
+        public ActionResult Details(int id)
+        {
+            var contestContent = this.Data.Contests
+                .All()
+                .Include(x => x.Photos)
+                .FirstOrDefault(x => x.Id == id);
+
+
+            var bookmarkViewModel = Mapper.Map<ContestDetailsViewModel>(contestContent);
+               
+
+            return View(bookmarkViewModel);
+        }
+
         public ActionResult AddContest()
         {
             return this.View();
-        }
+    }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

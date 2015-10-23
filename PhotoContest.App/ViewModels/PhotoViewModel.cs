@@ -11,6 +11,8 @@
 
         public string Path { get; set; }
 
+        public string Url { get; set; }
+
         public string Name { get; set; }
 
         public string Author { get; set; }
@@ -20,8 +22,6 @@
         public string ContestTitle { get; set; }
 
         public int Votes { get; set; }
-
-        public bool UserHasVoted { get; set; }
 
         public void CreateMappings(IConfiguration configuration)
         {

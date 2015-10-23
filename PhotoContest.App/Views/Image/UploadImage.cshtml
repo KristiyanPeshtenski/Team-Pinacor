@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.contestId = 1;
+}
+
+@using (Html.BeginForm("UploadImage", "Image", FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.TextBox("image", new {}, new {type = "file"})
+    <input type="hidden" value="@ViewBag.contestId" name="contestId" />
+    <input type="submit" class="btn btn-primary"/>
+}
+
+@Html.ActionLink("View Image", "GetImage", "Image", new { imageId = 2 }, new {})

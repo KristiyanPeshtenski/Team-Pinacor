@@ -6,7 +6,12 @@
     <p>Created on: @String.Format("{0:M/d/yyyy}", @Model.DateCreated)</p>
     <p>End: @String.Format("{0:M/d/yyyy}", @Model.DateEnd)</p>
     <p>Participation Strategy: @Model.ParticipationStrategy</p>
-
+    @{
+        if (Request.IsAuthenticated)
+        {
+            @Html.ActionLink("Participate", "Participate", "Contests", new { contestId = @Model.Id }, new { @class = "btn btn-success btn-sm" })
+        }
+    }
 
     @Html.ActionLink("Details", "Details", "Contests", new { id = Model.Id }, new { @class = "btn btn-primary" })
 </div>

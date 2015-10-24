@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using AutoMapper;
+using PhotoContest.Models.Enums;
 
 namespace PhotoContest.App.Controllers
 {
@@ -20,6 +21,18 @@ namespace PhotoContest.App.Controllers
         {
         }
 
+        [AllowAnonymous]
+        public ActionResult ActiveContests()
+        {
+            var activeContests = this.Data.Contests
+                .All()
+                .Where(x => x.DateEnd > DateTime.Now || x.DateEnd == null)
+                .OrderByDescending(x => x.DateCreated)
+                .Project()
+                .To<ContestViewModel>();
+
+            return PartialView("_ActiveContestsPartial", activeContests);
+        }
 
         [AllowAnonymous]
         public ActionResult Past()
@@ -42,17 +55,14 @@ namespace PhotoContest.App.Controllers
                 .Include(x => x.Photos)
                 .FirstOrDefault(x => x.Id == id);
 
-
             var bookmarkViewModel = Mapper.Map<ContestDetailsViewModel>(contestContent);
-               
-
             return View(bookmarkViewModel);
         }
 
         public ActionResult AddContest()
         {
             return this.View();
-    }
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -66,7 +76,7 @@ namespace PhotoContest.App.Controllers
                 this.Data.Contests.Add(contest);
                 this.Data.SaveChanges();
 
-                return this.RedirectToAction("Details", new {id = contest.Id});
+                return this.RedirectToAction("Details", new { id = contest.Id });
             }
 
             return this.View(model);
@@ -82,7 +92,27 @@ namespace PhotoContest.App.Controllers
                 .To<ContestViewModel>();
 
             return this.View(ownContests);
+        }
 
+        public ActionResult Participate(int contestId)
+        {
+            var contest = this.Data.Contests.GetById(contestId);
+
+            if (contest == null)
+            {
+                return this.HttpNotFound();
+            }
+
+            bool isInvited = contest.InvitedUsers.Contains(this.UserProfile);
+            if (contest.ParticipationStrategy == ParticipationStrategy.Closed && !isInvited)
+            {
+                throw new InvalidOperationException("cannot participated in close contest.");
+            }
+
+            contest.Participants.Add(this.UserProfile);
+            this.Data.SaveChanges();
+
+            return this.RedirectToAction("Details", new {id = contestId});
         }
     }
 }

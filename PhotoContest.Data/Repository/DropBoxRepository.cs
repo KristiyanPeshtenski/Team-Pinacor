@@ -10,9 +10,9 @@
 
         // Add keys to separate configuration file 
 
-        private const string AppKey = "6kq6aqvcbhv1sqb";
-        private const string AppSecret = "03grazystjvzsc4";
-        private const string AppTocken = "HIR8Jpj4AQAAAAAAAAAAGR_uid0jtLCinFe1ewJ2WUz6qHSON48vDZPvG6BIxeKj";
+        private const string AppKey = "8dy76y5l7xr08gf";
+        private const string AppSecret = "j1vl9k97bndq34o";
+        private const string AppTocken = "XN09yhu0CMAAAAAAAAAAEXpffl-GWa7HUS0whyPpM17W-ayUHb22waXiTccRw2D8";
 
         static DropBoxRepository()
         {
@@ -28,8 +28,6 @@
 
         public static string Download(string path)
         {
-            var media = client.GetMedia(path);
-            
             return client.GetMedia(path).Url;
         }
     }

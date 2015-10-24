@@ -1,0 +1,11 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "User Home";
+}
+
+<h3> @ViewBag.Title </h3>
+
+<div class="row">
+    @Html.Action("ActiveContests", "Contests")
+</div>

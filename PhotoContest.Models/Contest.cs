@@ -9,11 +9,13 @@
     {
         private ICollection<User> participants;
         private ICollection<User> winners;
+        private ICollection<User> invitedUsers; 
         private ICollection<Photo> photos;
 
         public Contest()
         {
             this.participants = new HashSet<User>();
+            this.invitedUsers = new HashSet<User>();
             this.photos = new HashSet<Photo>();
             this.winners = new HashSet<User>();
         } 
@@ -47,6 +49,12 @@
         {
             get { return this.participants; }
             set { this.participants = value; }
+        }
+
+        public ICollection<User> InvitedUsers
+        {
+            get { return this.invitedUsers; }
+            set { this.invitedUsers = value; }
         }
 
         public ICollection<Photo> Photos

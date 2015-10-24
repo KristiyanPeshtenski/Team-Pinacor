@@ -39,10 +39,11 @@
             };
             this.Data.Photos.Add(photo);
             this.Data.SaveChanges();
-            
+
             return this.View();
         }
 
+        [AllowAnonymous]
         public ActionResult GetImage(int imageId)
         {
             var image = this.Data.Photos
@@ -60,7 +61,7 @@
             var url = DropBoxRepository.Download(image.Path);
             image.Url = url;
 
-            return this.View(image);
+            return this.PartialView(image);
         }
     }
 }

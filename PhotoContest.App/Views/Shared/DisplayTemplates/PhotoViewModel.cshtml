@@ -1,8 +1,9 @@
 ﻿@model PhotoContest.App.ViewModels.PhotoViewModel
 
-<div id="photo-@Model.Id" class="col-md-4">
+<div id="photo-@Model.Id" class="col-md-6">
+    @Html.Action("GetImage", "Image", new {imageId = Model.Id })
     <p>@Model.Name</p>
     <p>Author: @Model.Author</p>
     <p>Posted on: @String.Format("{0:M/d/yyyy}", @Model.DateAdded)</p>
-</div> 
+</div>
 

@@ -14,7 +14,7 @@ namespace PhotoContest.App.Controllers
     using BindingModels;
     using PhotoContest.Models;
 
-    [Authorize]
+    
     public class ContestsController : BaseController
     {
         public ContestsController(IPhotoContestData data) : base(data)
@@ -55,8 +55,8 @@ namespace PhotoContest.App.Controllers
                 .Include(x => x.Photos)
                 .FirstOrDefault(x => x.Id == id);
 
-            var bookmarkViewModel = Mapper.Map<ContestDetailsViewModel>(contestContent);
-            return View(bookmarkViewModel);
+            var contestViewModel = Mapper.Map<ContestDetailsViewModel>(contestContent);
+            return View(contestViewModel);
         }
 
         public ActionResult AddContest()
@@ -64,6 +64,7 @@ namespace PhotoContest.App.Controllers
             return this.View();
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddContest(AddContestBindingModel model)
@@ -82,6 +83,7 @@ namespace PhotoContest.App.Controllers
             return this.View(model);
         }
 
+        [Authorize]
         public ActionResult OwnContests()
         {
             var userId = this.UserProfile.Id;
@@ -94,6 +96,7 @@ namespace PhotoContest.App.Controllers
             return this.View(ownContests);
         }
 
+        [Authorize]
         public ActionResult Participate(int contestId)
         {
             var contest = this.Data.Contests.GetById(contestId);

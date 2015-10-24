@@ -194,7 +194,9 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ContestsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -273,7 +275,13 @@
     <Content Include="Views\Shared\DisplayTemplates\ContestViewModel.cshtml" />
     <Content Include="Views\Contests\Past.cshtml" />
     <None Include="Views\Contests\AddContest.cshtml" />
+    <Content Include="Views\Contests\Details.cshtml" />
     <None Include="Views\Contests\OwnContests.cshtml" />
+    <Content Include="Views\Image\GetImage.cshtml" />
+    <Content Include="Views\Image\UploadImage.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\PhotoViewModel.cshtml" />
+    <Content Include="Views\Contests\_ActiveContestsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

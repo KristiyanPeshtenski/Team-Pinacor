@@ -9,7 +9,7 @@
     {
         private ICollection<User> participants;
         private ICollection<User> winners;
-        private ICollection<User> invitedUsers; 
+        private ICollection<User> invitedUsers;
         private ICollection<Photo> photos;
 
         public Contest()
@@ -18,7 +18,7 @@
             this.invitedUsers = new HashSet<User>();
             this.photos = new HashSet<Photo>();
             this.winners = new HashSet<User>();
-        } 
+        }
 
         public int Id { get; set; }
 
@@ -30,7 +30,16 @@
         [Required]
         public DateTime DateCreated { get; set; }
 
+        public int NumberOfPrices { get; set; }
+
+        public int? MaximumParticipants { get; set; }
+
         public DateTime? DateEnd { get; set; }
+
+        public bool IsDissmised { get; set; }
+
+        public bool IsFinalized { get; set; }
+
 
         [Required]
         public string CreatorId { get; set; }

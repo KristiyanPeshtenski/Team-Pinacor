@@ -1,4 +1,6 @@
-﻿namespace PhotoContest.App.BindingModels
+﻿using System;
+
+namespace PhotoContest.App.BindingModels
 {
     using System.ComponentModel.DataAnnotations;
     using Common.Mappings;
@@ -12,6 +14,12 @@
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        public DateTime? DateEnd { get; set; }
+
+        public int? NumberOfPrices { get; set; }
+
+        public int? MaximumParticipants { get; set; }
 
         [Required(ErrorMessage = "The {0} is Required")]
         public VotingStrategy VotingStrategy { get; set; }

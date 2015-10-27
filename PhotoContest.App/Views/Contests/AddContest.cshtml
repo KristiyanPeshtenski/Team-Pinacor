@@ -1,6 +1,7 @@
-﻿@model PhotoContest.App.BindingModels.AddContestBindingModel
+﻿@using PhotoContest.Models.Enums
+@model PhotoContest.App.BindingModels.AddContestBindingModel
 @{
-    ViewBag.Title = "Add Contest";
+    ViewBag.Title = "Create Contest";
 }
 
 <div class="col-md-offset-4">
@@ -28,15 +29,18 @@
             <div class="form-group">
                 @Html.LabelFor(x => x.RewardStrategy, new { @class = "col-md-4 control-label" })
                 <div class="col-md-8"></div>
-                @Html.EnumDropDownListFor(x => x.RewardStrategy, new { @class = "form-control" })
+                @Html.EnumDropDownListFor(x => x.RewardStrategy, new { @class = "form-control", id = "reward-strategy" })
             </div>
+            <div class="form-group" id="number-of-winners"></div>
             <div class="form-group">
                 @Html.LabelFor(x => x.DeadLineStrategy, new { @class = "col-md-4 control-label" })
                 <div class="col-md-8">
-                    @Html.EnumDropDownListFor(x => x.DeadLineStrategy, new { @class = "form-control" })
-
+                    @Html.EnumDropDownListFor(x => x.DeadLineStrategy, new { @class = "form-control", id = "deadline-strategy" })
                 </div>
             </div>
+
+            <div class="form-group" id="deadline-container"></div>
+
             <div class="form-group">
                 @Html.LabelFor(x => x.ParticipationStrategy, new { @class = "col-md-4 control-label" })
                 <div class="col-md-8">
@@ -58,3 +62,68 @@
     </div>
 </div>
 
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            renderEndDateInput();
+
+            $('#deadline-strategy').change(function () {
+                clear('#deadline-container');
+                var val = $('#deadline-strategy').val();
+                if (val == 0) {
+                    renderEndDateInput();
+                }
+                if (val == 1) {
+                    renderNumberOfParticipantsInput();
+                }
+            });
+
+            $('#reward-strategy').change(function() {
+                clear('#number-of-winners');
+                var val = $('#reward-strategy').val();
+                if (val == 1) {
+                    renderNumberOfWinnersInput();
+                }
+            });
+        });
+
+        function renderEndDateInput() {
+            var label = $('<label>', { class: "control-label col-md-4", for: 'end-date' });
+            label.text("End Date");
+            var inputDiv = $('<div>', { class: "col-md-8" });
+            var input = $('<input>', { type: 'date', name: 'DateEnd', id: 'end-date', class: 'form-control' });
+            var divConteiner = $('#deadline-container');
+            label.appendTo(divConteiner);
+            input.appendTo(inputDiv);
+            inputDiv.appendTo(divConteiner);
+        }
+
+        function renderNumberOfParticipantsInput() {
+            var label = $('<label>', { class: "control-label col-md-4", for: 'participants-num' });
+            label.text("Number of Participants");
+            var inputDiv = $('<div>', { class: "col-md-8" });
+            var input = $('<input>', { type: 'number', name: 'MaximumParticipants', id: 'participants-num', class: 'form-control' });
+            var divConteiner = $('#deadline-container');
+            label.appendTo(divConteiner);
+            input.appendTo(inputDiv);
+            inputDiv.appendTo(divConteiner);
+        }
+
+        function renderNumberOfWinnersInput() {
+            var label = $('<label>', { class: "control-label col-md-4", for: 'winners-num' });
+            label.text("Number of Winners");
+            var inputDiv = $('<div>', { class: "col-md-8" });
+            var input = $('<input>', { type: 'number', name: 'NumberOfPrices', id: 'winners-num', class: 'form-control' });
+            var divConteiner = $('#number-of-winners');
+            label.appendTo(divConteiner);
+            input.appendTo(inputDiv);
+            inputDiv.appendTo(divConteiner);
+        }
+
+        function clear(nodeId) {
+            $(nodeId).empty();
+        }
+    </script>
+}

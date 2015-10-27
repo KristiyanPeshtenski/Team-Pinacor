@@ -75,6 +75,7 @@ namespace PhotoContest.App.Controllers
                 var contest = Mapper.Map<Contest>(model);
                 contest.DateCreated = DateTime.Now;
                 contest.Creator = this.UserProfile;
+                contest.NumberOfPrices = model.NumberOfPrices ?? 1;
                 this.Data.Contests.Add(contest);
                 this.Data.SaveChanges();
 

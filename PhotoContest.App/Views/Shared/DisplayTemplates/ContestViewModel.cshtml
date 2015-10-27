@@ -1,4 +1,5 @@
-﻿@model PhotoContest.App.ViewModels.ContestViewModel
+﻿@using PhotoContest.Models.Enums
+@model PhotoContest.App.ViewModels.ContestViewModel
 
 <div class="col-md-4">
     <h3>@Model.Title</h3>
@@ -7,7 +8,7 @@
     <p>End: @String.Format("{0:M/d/yyyy}", @Model.DateEnd)</p>
     <p>Participation Strategy: @Model.ParticipationStrategy</p>
     @{
-        if (Request.IsAuthenticated)
+        if (Request.IsAuthenticated && @Model.ParticipationStrategy == ParticipationStrategy.Open)
         {
             @Html.ActionLink("Participate", "Participate", "Contests", new { contestId = @Model.Id }, new { @class = "btn btn-success btn-sm" })
         }

@@ -1,4 +1,8 @@
-﻿namespace PhotoContest.App.Controllers
+﻿using System.Data.Entity;
+using AutoMapper;
+using Microsoft.AspNet.Identity;
+
+namespace PhotoContest.App.Controllers
 {
     using System;
     using System.Web;
@@ -40,7 +44,8 @@
             this.Data.Photos.Add(photo);
             this.Data.SaveChanges();
 
-            return this.View();
+            return this.RedirectToAction("Details", "Contests", new { id = contestId });
+            // return this.View();
         }
 
         [AllowAnonymous]
@@ -48,20 +53,74 @@
         {
             var image = this.Data.Photos
                 .All()
-                .Where(x => x.Id == imageId)
-                .Project()
-                .To<PhotoViewModel>()
-                .FirstOrDefault();
+                .Include(x => x.Votes)
+                .FirstOrDefault(x => x.Id == imageId);
 
             if (image == null)
             {
                 return HttpNotFound();
             }
 
-            var url = DropBoxRepository.Download(image.Path);
-            image.Url = url;
+            var imageViewModel = Mapper.Map<PhotoViewModel>(image);
 
-            return this.PartialView(image);
+            var userId = this.User.Identity.GetUserId();
+            imageViewModel.UserHasVoted = image.Votes.Any(x => x.UserId == userId);
+
+            var url = DropBoxRepository.Download(imageViewModel.Path);
+            imageViewModel.Url = url;
+
+            return this.PartialView(imageViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Vote(int photoId)
+        {
+            var photo = this.Data.Photos
+                .All()
+                .FirstOrDefault(x => x.Id == photoId);
+
+            if (photo != null)
+            {
+                //var userId = this.User.Identity.GetUserId();
+                var userHasVoted = photo.Votes.Any(x => x.UserId == this.UserProfile.Id);
+                if (!userHasVoted)
+                {
+                    this.Data.Votes.Add(new Vote
+                    {
+                        PhotoId = photoId,
+                        UserId = this.UserProfile.Id,
+                        Value = 1
+                    });
+                    this.Data.SaveChanges();
+                }
+
+                var votesCout = photo.Votes.Sum(x => x.Value);
+                return this.Content(votesCout.ToString());
+            }
+
+            return new EmptyResult();
         }
     }
 }
+
+
+//public ActionResult GetImage(int imageId)
+//{
+//    var image = this.Data.Photos
+//        .All()
+//        .Where(x => x.Id == imageId)
+//        .Project()
+//        .To<PhotoViewModel>()
+//        .FirstOrDefault();
+
+//    if (image == null)
+//    {
+//        return HttpNotFound();
+//    }
+
+//    var url = DropBoxRepository.Download(image.Path);
+//    image.Url = url;
+
+//    return this.PartialView(image);
+//}

@@ -56,6 +56,7 @@ namespace PhotoContest.App.Controllers
                 .FirstOrDefault(x => x.Id == id);
 
             var contestViewModel = Mapper.Map<ContestDetailsViewModel>(contestContent);
+
             return View(contestViewModel);
         }
 
@@ -107,9 +108,17 @@ namespace PhotoContest.App.Controllers
             }
 
             bool isInvited = contest.InvitedUsers.Contains(this.UserProfile);
+
             if (contest.ParticipationStrategy == ParticipationStrategy.Closed && !isInvited)
             {
                 throw new InvalidOperationException("cannot participated in close contest.");
+            }
+
+            var contestsParticipateIn = this.UserProfile.ContestsParticipateIn;
+
+            if (contestsParticipateIn.Any(c => c.Id == contestId))
+            {
+                throw new InvalidOperationException("You already participate in this contest.");
             }
 
             contest.Participants.Add(this.UserProfile);
@@ -117,5 +126,7 @@ namespace PhotoContest.App.Controllers
 
             return this.RedirectToAction("Details", new {id = contestId});
         }
+
+
     }
 }

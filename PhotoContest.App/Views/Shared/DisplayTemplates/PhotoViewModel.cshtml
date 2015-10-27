@@ -1,9 +1,43 @@
 ﻿@model PhotoContest.App.ViewModels.PhotoViewModel
 
 <div id="photo-@Model.Id" class="col-md-6">
-    @Html.Action("GetImage", "Image", new {imageId = Model.Id })
+    @Html.Action("GetImage", "Image", new { imageId = Model.Id })
     <p>@Model.Name</p>
     <p>Author: @Model.Author</p>
-    <p>Posted on: @String.Format("{0:M/d/yyyy}", @Model.DateAdded)</p>
+    <p>Posted on: @String.Format("{0:MM/d/yyyy}", @Model.DateAdded)</p>
+
+
+    <div id="votes" class="pull-left">
+        <div>
+            Votes: <span id="votes-count">@Model.Votes</span>
+            @if (!@Model.UserHasVoted)
+            {
+                <div id="vote-button-@Model.Id">
+                    @using (Ajax.BeginForm("Vote", "Image", new { photoId = Model.Id }, new AjaxOptions()
+                    {
+                        HttpMethod = "POST",
+                        UpdateTargetId = "votes-count",
+                        InsertionMode = InsertionMode.Replace,
+                        OnSuccess = "onVoteSuccess"
+                    }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="submit" name="name" value="Vote for this photo" />
+                    }
+                </div>
+            }
+        </div>
+    </div>
 </div>
 
+@section scripts
+{
+    @*<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>*@
+    <script>
+        function onVoteSuccess() {
+            var button = document.getElementById("vote-button-@Model.Id");
+            button.parentNode.removeChild(button);
+           
+        }
+    </script>
+}

@@ -1,10 +1,12 @@
-﻿namespace PhotoContest.App.ViewModels
+﻿
+namespace PhotoContest.App.ViewModels
 {
     using System;
     using Common.Mappings;
     using PhotoContest.Models;
     using AutoMapper;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public class ContestDetailsViewModel : IMapFrom<Contest>, IHaveCustomMappings
     {
@@ -14,8 +16,10 @@
 
         public string Description { get; set; }
 
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/d/yyyy}")]
         public DateTime DateCreated { get; set; }
 
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/d/yyyy}")]
         public DateTime? DateEnd { get; set; }
 
         public string Creator { get; set; }

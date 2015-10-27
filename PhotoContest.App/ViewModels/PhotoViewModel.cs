@@ -23,6 +23,8 @@
 
         public int Votes { get; set; }
 
+        public bool UserHasVoted { get; set; }
+
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Photo, PhotoViewModel>()

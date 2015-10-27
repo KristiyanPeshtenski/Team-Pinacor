@@ -24,5 +24,6 @@ textarea {
 }
 
 img {
-    max-width: 90%;
+    max-height: 85%;
+    max-width: 85%;
 }

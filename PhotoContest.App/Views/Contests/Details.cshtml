@@ -12,12 +12,27 @@
     <p>@Html.DisplayNameFor(x => x.DateCreated): @Html.DisplayFor(x => x.DateCreated)</p>
     <p>@Html.DisplayNameFor(x => x.DateEnd): @Html.DisplayFor(x => x.DateEnd)</p>
 </div>
+<hr />
+
+@if (Request.IsAuthenticated)
+{
+    <h4>Upload Your photo</h4>
+
+    using (Html.BeginForm("UploadImage", "Image", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.TextBox("image", new { }, new { type = "file" })
+        <input type="hidden" value="@Model.Id" name="contestId" />
+        <input type="submit" class="btn btn-primary" value="Upload" />
+    }
+
+}
 
 <div id="photos">
     <h2>Photos</h2>
 
     @if (Model.Photos.Any())
-    {
+            {
         @Html.DisplayFor(x => x.Photos)
     }
     else
@@ -25,6 +40,3 @@
         <span>No photos yet</span>
     }
 </div>
-
-
-

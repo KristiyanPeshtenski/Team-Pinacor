@@ -14,5 +14,4 @@ This is a teamwork project from Software University course ASP.NET MVC.
 ##
 Team members:
 #####Kristiyan Peshtenski
-#####Aleksandar Stefanov
 #####Stefan Bratovanov

@@ -1,6 +1,6 @@
 ﻿@model PhotoContest.App.ViewModels.PhotoViewModel
 
-<div id="photo-@Model.Id" class="col-md-6">
+<div id="photo-@Model.Id" class="col-md-5 container">
     @Html.Action("GetImage", "Image", new { imageId = Model.Id })
     <p>@Model.Name</p>
     <p>Author: @Model.Author</p>
@@ -9,16 +9,16 @@
 
     <div id="votes" class="pull-left">
         <div>
-            Votes: <span id="votes-count">@Model.Votes</span>
-            @if (!@Model.UserHasVoted)
+            Votes: <span id="@Model.Id-votes-count">@Model.Votes</span>
+            @if (!Model.UserHasVoted)
             {
                 <div id="vote-button-@Model.Id">
-                    @using (Ajax.BeginForm("Vote", "Image", new { photoId = Model.Id }, new AjaxOptions()
+                    @using (Ajax.BeginForm("Vote", "Image", new { photoId = Model.Id, contestId = Model.ContestId }, new AjaxOptions()
                     {
                         HttpMethod = "POST",
-                        UpdateTargetId = "votes-count",
+                        UpdateTargetId = @Model.Id + "-votes-count",
                         InsertionMode = InsertionMode.Replace,
-                        OnSuccess = "onVoteSuccess"
+                        OnSuccess = "onVoteSuccess('" + @Model.Id + "')"
                     }))
                     {
                         @Html.AntiForgeryToken()
@@ -30,14 +30,3 @@
     </div>
 </div>
 
-@section scripts
-{
-    @*<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>*@
-    <script>
-        function onVoteSuccess() {
-            var button = document.getElementById("vote-button-@Model.Id");
-            button.parentNode.removeChild(button);
-           
-        }
-    </script>
-}

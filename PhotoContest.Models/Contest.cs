@@ -40,7 +40,6 @@
 
         public bool IsFinalized { get; set; }
 
-
         [Required]
         public string CreatorId { get; set; }
 

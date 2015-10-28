@@ -19,7 +19,7 @@
 
         public string DateAdded { get; set; }
 
-        public string ContestTitle { get; set; }
+        public int ContestId { get; set; }
 
         public int Votes { get; set; }
 

@@ -22,6 +22,7 @@ namespace PhotoContest.Data
 
         public IDbSet<Vote> Votes { get; set; }
 
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
@@ -29,11 +30,16 @@ namespace PhotoContest.Data
 
             modelBuilder.Entity<Contest>()
                 .HasMany(x => x.Participants)
-                .WithMany(x => x.ContestsParticipateIn);
+                .WithMany(x => x.ContestsParticipateIn)
+                .Map(contest => contest.MapLeftKey("ContestId").MapRightKey("UserId")
+                    .ToTable("ContestParticipants"));
+                
 
             modelBuilder.Entity<Contest>()
                 .HasMany(x => x.Winners)
-                .WithMany(x => x.WinContests);
+                .WithMany(x => x.WinContests)
+                .Map(contest => contest.MapLeftKey("ContestId").MapRightKey("UserId")
+                    .ToTable("ContestWinners")); ;
 
             modelBuilder.Entity<Contest>()
                 .HasRequired(x => x.Creator)

@@ -1,8 +1,4 @@
-﻿using System.Data.Entity;
-using AutoMapper;
-using PhotoContest.Models.Enums;
-
-namespace PhotoContest.App.Controllers
+﻿namespace PhotoContest.App.Controllers
 {
     using System;
     using System.Web.Mvc;
@@ -13,8 +9,9 @@ namespace PhotoContest.App.Controllers
     using AutoMapper;
     using BindingModels;
     using PhotoContest.Models;
+    using System.Data.Entity;
+    using PhotoContest.Models.Enums;
 
-    
     public class ContestsController : BaseController
     {
         public ContestsController(IPhotoContestData data) : base(data)
@@ -54,6 +51,11 @@ namespace PhotoContest.App.Controllers
                 .All()
                 .Include(x => x.Photos)
                 .FirstOrDefault(x => x.Id == id);
+
+            if (this.User.Identity.IsAuthenticated)
+            {
+                ViewBag.HasUserPartisipate = this.HasParticipateInContest(id, this.UserProfile);
+            }
 
             var contestViewModel = Mapper.Map<ContestDetailsViewModel>(contestContent);
 
@@ -115,9 +117,7 @@ namespace PhotoContest.App.Controllers
                 throw new InvalidOperationException("cannot participated in close contest.");
             }
 
-            var contestsParticipateIn = this.UserProfile.ContestsParticipateIn;
-
-            if (contestsParticipateIn.Any(c => c.Id == contestId))
+            if (this.HasParticipateInContest(contestId, this.UserProfile))
             {
                 throw new InvalidOperationException("You already participate in this contest.");
             }
@@ -125,9 +125,13 @@ namespace PhotoContest.App.Controllers
             contest.Participants.Add(this.UserProfile);
             this.Data.SaveChanges();
 
-            return this.RedirectToAction("Details", new {id = contestId});
+            return this.RedirectToAction("Details", new { id = contestId });
         }
 
+        private bool HasParticipateInContest(int contestId, User user)
+        {
+            return user.ContestsParticipateIn.Any(x => x.Id == contestId);
+        }
 
     }
 }

@@ -16,6 +16,8 @@ namespace PhotoContest.App.ViewModels
 
         public string Description { get; set; }
 
+        public bool UserHasVoted { get; set; }
+
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/d/yyyy}")]
         public DateTime DateCreated { get; set; }
 

@@ -15,6 +15,10 @@
 
         public virtual User User { get; set; }
 
+        public int ContestId { get; set; }
+
+        public virtual Contest Contest { get; set; }
+
         public int PhotoId { get; set; }
 
         public virtual Photo Photo { get; set; }

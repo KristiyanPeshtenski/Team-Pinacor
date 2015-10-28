@@ -74,7 +74,7 @@ namespace PhotoContest.App.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Vote(int photoId)
+        public ActionResult Vote(int photoId, int contestId)
         {
             var photo = this.Data.Photos
                 .All()
@@ -82,7 +82,6 @@ namespace PhotoContest.App.Controllers
 
             if (photo != null)
             {
-                //var userId = this.User.Identity.GetUserId();
                 var userHasVoted = photo.Votes.Any(x => x.UserId == this.UserProfile.Id);
                 if (!userHasVoted)
                 {
@@ -90,6 +89,7 @@ namespace PhotoContest.App.Controllers
                     {
                         PhotoId = photoId,
                         UserId = this.UserProfile.Id,
+                        ContestId = contestId,
                         Value = 1
                     });
                     this.Data.SaveChanges();

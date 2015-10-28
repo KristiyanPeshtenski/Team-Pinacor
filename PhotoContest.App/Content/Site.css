@@ -27,3 +27,8 @@ img {
     max-height: 85%;
     max-width: 85%;
 }
+
+#image-small {
+    max-width: 200px;
+    max-height: 150px;
+}

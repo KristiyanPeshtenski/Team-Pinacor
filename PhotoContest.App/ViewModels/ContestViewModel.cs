@@ -1,5 +1,4 @@
 ﻿
-
 namespace PhotoContest.App.ViewModels
 {
     using AutoMapper;
@@ -7,6 +6,7 @@ namespace PhotoContest.App.ViewModels
     using PhotoContest.Models;
     using Common.Mappings;
     using PhotoContest.Models.Enums;
+    using System.Collections.Generic;
 
     public class ContestViewModel : IMapFrom<Contest>
     {
@@ -22,5 +22,6 @@ namespace PhotoContest.App.ViewModels
 
         public DateTime? DateEnd { get; set; }
 
+        public IEnumerable<ParticipantViewModel> Participants { get; set; }
     }
 }

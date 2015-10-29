@@ -56,15 +56,15 @@ namespace PhotoContest.App
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "929806347057105",
+               appSecret: "697de967ef8ee70d78fdac9de2434f22");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "1096965058200-2ngtbck6q75oo199jdnk2d2cij5bmrmi.apps.googleusercontent.com",
+                ClientSecret = "PO32Kp4gOG-1JQopA2C12qyV"
+            });
         }
     }
 }

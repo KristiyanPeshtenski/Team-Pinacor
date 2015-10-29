@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<PhotoContest.App.ViewModels.ContestViewModel>
 @{
+    ViewBag.Title = "Active Contest";
+
     if (Request.IsAuthenticated)
     {
         Layout = "~/Views/Shared/_UserLayout.cshtml";
@@ -9,9 +11,6 @@
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
 }
-<h2>Past contests</h2>
-
-<div class="row">
+<div class="well">
     @Html.DisplayFor(x => x)
-
 </div>

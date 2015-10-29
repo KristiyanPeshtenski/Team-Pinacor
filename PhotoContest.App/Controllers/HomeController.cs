@@ -13,7 +13,7 @@
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                return this.RedirectToAction("Index", "User");
+                return this.RedirectToAction("Active", "Contests");
             }
 
             return View();

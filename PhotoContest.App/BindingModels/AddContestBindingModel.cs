@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace PhotoContest.App.BindingModels
+﻿namespace PhotoContest.App.BindingModels
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using Common.Mappings;
     using PhotoContest.Models;

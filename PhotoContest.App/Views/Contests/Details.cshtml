@@ -1,6 +1,14 @@
 ﻿@model PhotoContest.App.ViewModels.ContestDetailsViewModel
 @{
     ViewBag.Title = "Details";
+    if (Request.IsAuthenticated)
+    {
+        Layout = "~/Views/Shared/_UserLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 }
 
 <h2>@Model.Title</h2>

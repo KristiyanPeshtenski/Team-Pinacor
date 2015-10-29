@@ -19,7 +19,7 @@
         }
 
         [AllowAnonymous]
-        public ActionResult ActiveContests()
+        public ActionResult Active()
         {
             var activeContests = this.Data.Contests
                 .All()
@@ -28,7 +28,7 @@
                 .Project()
                 .To<ContestViewModel>();
 
-            return PartialView("_ActiveContestsPartial", activeContests);
+            return this.View(activeContests);
         }
 
         [AllowAnonymous]
@@ -88,7 +88,7 @@
         }
 
         [Authorize]
-        public ActionResult OwnContests()
+        public ActionResult Created()
         {
             var userId = this.UserProfile.Id;
             var ownContests = this.Data.Contests

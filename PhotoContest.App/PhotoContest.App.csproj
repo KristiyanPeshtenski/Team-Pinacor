@@ -206,6 +206,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ContestDetailsViewModel .cs" />
     <Compile Include="ViewModels\ContestViewModel.cs" />
+    <Compile Include="ViewModels\ParticipantViewModel.cs" />
     <Compile Include="ViewModels\PhotoViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -277,7 +278,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ContestViewModel.cshtml" />
     <Content Include="Views\Contests\Past.cshtml" />
-    <Content Include="Views\Contests\Active.cshtml" />
+    <Content Include="Views\Contests\ActiveContests.cshtml" />
     <None Include="Views\Contests\AddContest.cshtml" />
     <Content Include="Views\Contests\Details.cshtml" />
     <None Include="Views\Contests\Created.cshtml" />
@@ -285,6 +286,7 @@
     <Content Include="Views\Image\UploadImage.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\PhotoViewModel.cshtml" />
     <Content Include="Views\Shared\_UserLayout.cshtml" />
+    <Content Include="Views\User\_UserNavigatoinPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

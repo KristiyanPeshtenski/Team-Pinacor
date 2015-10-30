@@ -1,5 +1,4 @@
-﻿@using PhotoContest.Models.Enums
-@model PhotoContest.App.BindingModels.AddContestBindingModel
+﻿@model PhotoContest.App.BindingModels.AddContestBindingModel
 @{
     Layout = "~/Views/Shared/_UserLayout.cshtml";
     ViewBag.Title = "Create Contest";
@@ -56,7 +55,8 @@
             </div>
             <div class="form-controll">
                 <div class="col-md-offset-4">
-                    <input type="submit" value="Add Contest" class="btn btn-primary" />
+                    <input type="submit" value="Add Contest" class="btn btn-primary"/>
+                    @Html.ActionLink("Cancel", "Created", "Contests", new { @class = "btn btn-primary" })
                 </div>
             </div>
         }

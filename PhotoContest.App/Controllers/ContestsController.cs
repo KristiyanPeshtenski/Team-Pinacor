@@ -67,8 +67,8 @@
             return this.View();
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult AddContest(AddContestBindingModel model)
         {
@@ -85,6 +85,52 @@
             }
 
             return this.View(model);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Edit(int id)
+        {
+            var contest = this.Data.Contests
+                .All()
+                .Where(x => x.Id == id)
+                .Project()
+                .To<AddContestBindingModel>()
+                .FirstOrDefault();
+
+            if (contest == null)
+            {
+                return this.HttpNotFound();
+            }
+            if (contest.CreatorId != this.UserProfile.Id)
+            {
+                return new HttpUnauthorizedResult("Have to be contest owner to edit it.");
+            }
+
+            return this.View(contest);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, AddContestBindingModel model)
+        {
+            var contest = this.Data.Contests.GetById(id);
+            if (contest == null)
+            {
+                return this.HttpNotFound();
+            }
+            if (contest.CreatorId != this.UserProfile.Id)
+            {
+                return new HttpUnauthorizedResult("Have to be contest owner to edit it.");
+            }
+            contest.Title = model.Title;
+            contest.Description = model.Description;
+            contest.DateEnd = model.DateEnd;
+            contest.MaximumParticipants = model.MaximumParticipants;
+            this.Data.SaveChanges();
+
+            return this.RedirectToAction("Details", new {id = contest.Id});
         }
 
         [Authorize]

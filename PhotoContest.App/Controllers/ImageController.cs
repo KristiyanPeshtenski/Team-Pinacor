@@ -63,8 +63,10 @@ namespace PhotoContest.App.Controllers
 
             var imageViewModel = Mapper.Map<PhotoViewModel>(image);
 
-            var userId = this.User.Identity.GetUserId();
-            imageViewModel.UserHasVoted = image.Votes.Any(x => x.UserId == userId);
+            if (this.User.Identity.IsAuthenticated)
+            {
+                imageViewModel.UserHasVoted = image.Votes.Any(x => x.UserId == this.UserProfile.Id);
+            }
 
             var url = DropBoxRepository.Download(imageViewModel.Path);
             imageViewModel.Url = url;

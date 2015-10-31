@@ -11,6 +11,25 @@
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
 }
+<div id="notifications"></div>
+
 <div class="well">
     @Html.DisplayFor(x => x)
 </div>
+
+@section scripts {
+
+    <script>
+        $(document).ready(function () {
+
+            var notificationsHub = $.connection.notificationsHub;
+            notificationsHub.client.receiveNotification = function (notification) {
+
+                var notificationElement = $("<div>").addClass("alert alert-dismissible alert-success").html("<button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>" + notification);
+                $("#notifications").append(notificationElement);
+            };
+
+            $.connection.hub.start();
+        });
+    </script>
+}

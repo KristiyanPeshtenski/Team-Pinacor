@@ -6,6 +6,7 @@
     using AutoMapper;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using PhotoContest.Models.Enums;
 
     public class ContestDetailsViewModel : IMapFrom<Contest>, IHaveCustomMappings
     {
@@ -15,7 +16,7 @@
 
         public string Description { get; set; }
 
-        public bool UserHasVoted { get; set; }
+        public ContestStatus Status { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/d/yyyy}")]
         public DateTime DateCreated { get; set; }

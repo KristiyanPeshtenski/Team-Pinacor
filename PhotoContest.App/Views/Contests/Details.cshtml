@@ -1,17 +1,15 @@
-﻿@model PhotoContest.App.ViewModels.ContestDetailsViewModel
+﻿@using PhotoContest.Models.Enums
+@model PhotoContest.App.ViewModels.ContestDetailsViewModel
 @{
     ViewBag.Title = "Details";
-    if (Request.IsAuthenticated)
-    {
-        Layout = "~/Views/Shared/_UserLayout.cshtml";
-    }
-    else
-    {
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }
 }
 
-<h2>@Model.Title</h2>
+<h3>@Model.Title</h3>
+
+@if(Model.Status == ContestStatus.Dismissed)
+{
+    <h2 class="text-danger"> Dismissed </h2>
+}
 
 <div>
     <p>@Html.DisplayNameFor(x => x.Description): @Html.DisplayFor(x => x.Description)</p>
@@ -22,7 +20,7 @@
 <hr />
 
 
-@if (Request.IsAuthenticated && this.ViewBag.HasUserPartisipate)
+@if (Request.IsAuthenticated && this.ViewBag.HasUserPartisipate && (Model.Status == ContestStatus.Active || Model.Status == ContestStatus.ParticipationClosed))
 {
     <h4>Upload Your photo</h4>
 
@@ -33,7 +31,6 @@
         <input type="hidden" value="@Model.Id" name="contestId" />
         <input type="submit" class="btn btn-primary" value="Upload" />
     }
-
 }
 
 <div id="photos">
@@ -42,11 +39,14 @@
     @{
         if (Model.Photos.Any())
         {
-            @Html.DisplayFor(x => x.Photos)
+            foreach (var photo in Model.Photos)
+            {
+                @Html.Action("GetImage", "Image", new { photoId = photo.Id });
+            }
         }
         else
         {
-            <span>No photos yet</span>
+            <span> No photos yet. </span>
         }
     }
 </div>
@@ -57,7 +57,7 @@
         function onVoteSuccess(id) {
             var buttonDiv = $("#vote-button-" + id);
             buttonDiv.empty();
-        };
+        }
     </script>
 }
 

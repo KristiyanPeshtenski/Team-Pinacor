@@ -14,7 +14,8 @@
 
     public class ContestsController : BaseController
     {
-        public ContestsController(IPhotoContestData data) : base(data)
+        public ContestsController(IPhotoContestData data)
+            : base(data)
         {
         }
 
@@ -23,12 +24,19 @@
         {
             var activeContests = this.Data.Contests
                 .All()
-                .Where(x => x.DateEnd > DateTime.Now || x.DateEnd == null)
-                .OrderByDescending(x => x.DateCreated)
+                .Where(x => x.Status == ContestStatus.Active);
+
+            foreach (var contest in activeContests)
+            {
+                contest.Status = this.UpdateContestStatus(contest);
+            }
+
+            var updatedContests = activeContests
+                .Where(x => x.Status == ContestStatus.Active)
                 .Project()
                 .To<ContestViewModel>();
 
-            return this.View(activeContests);
+            return this.View(updatedContests);
         }
 
         [AllowAnonymous]
@@ -36,7 +44,8 @@
         {
             var pastContests = this.Data.Contests
                 .All()
-                .Where(x => x.DateEnd < DateTime.Now)
+                .Where(x => x.Status == ContestStatus.Finished ||
+                   x.Status == ContestStatus.Dismissed)
                 .OrderByDescending(x => x.DateEnd)
                 .Project()
                 .To<ContestViewModel>();
@@ -62,7 +71,7 @@
             return View(contestViewModel);
         }
 
-        public ActionResult AddContest()
+        public ActionResult Create()
         {
             return this.View();
         }
@@ -70,7 +79,7 @@
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult AddContest(AddContestBindingModel model)
+        public ActionResult Create(ContestBindingModel model)
         {
             if (model != null && this.ModelState.IsValid)
             {
@@ -95,7 +104,7 @@
                 .All()
                 .Where(x => x.Id == id)
                 .Project()
-                .To<AddContestBindingModel>()
+                .To<ContestBindingModel>()
                 .FirstOrDefault();
 
             if (contest == null)
@@ -113,7 +122,7 @@
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, AddContestBindingModel model)
+        public ActionResult Edit(int id, ContestBindingModel model)
         {
             var contest = this.Data.Contests.GetById(id);
             if (contest == null)
@@ -130,7 +139,7 @@
             contest.MaximumParticipants = model.MaximumParticipants;
             this.Data.SaveChanges();
 
-            return this.RedirectToAction("Details", new {id = contest.Id});
+            return this.RedirectToAction("Details", new { id = contest.Id });
         }
 
         [Authorize]
@@ -160,7 +169,7 @@
 
             if (contest.ParticipationStrategy == ParticipationStrategy.Closed && !isInvited)
             {
-                throw new InvalidOperationException("cannot participated in close contest.");
+                return new HttpUnauthorizedResult();
             }
 
             if (this.HasParticipateInContest(contestId, this.UserProfile))
@@ -174,10 +183,67 @@
             return this.RedirectToAction("Details", new { id = contestId });
         }
 
+        public ActionResult Dismiss(int id)
+        {
+            var contest = this.Data.Contests.GetById(id);
+
+            if (contest == null)
+            {
+                return this.HttpNotFound();
+            }
+            if (contest.CreatorId != this.UserProfile.Id)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            contest.Status = ContestStatus.Dismissed;
+            this.Data.SaveChanges();
+
+            return this.RedirectToAction("Details", new { id = contest.Id });
+        }
+
+        //public ActionResult Finalize(int id)
+        //{
+        //    var contest = this.Data.Contests.GetById(id);
+
+        //    if (contest == null)
+        //    {
+        //        return this.HttpNotFound();
+        //    }
+        //    if (contest.CreatorId != this.UserProfile.Id)
+        //    {
+        //        return new HttpUnauthorizedResult();
+        //    }
+
+        //    contest.Status = ContestStatus.Finished;
+        //    this.Data.SaveChanges();
+
+        //    this.GetWinners(Contest contest);
+        //}
+
+
         private bool HasParticipateInContest(int contestId, User user)
         {
             return user.ContestsParticipateIn.Any(x => x.Id == contestId);
         }
 
+        private ContestStatus UpdateContestStatus(Contest contest)
+        {
+            if(contest.Status != ContestStatus.Dismissed && contest.Status != ContestStatus.Finished)
+            {
+                if (contest.DeadLineStrategy == DeadLineStrategy.ByTime && contest.DateEnd <= DateTime.Now)
+                {
+                    return ContestStatus.UploadClosed;
+                }
+                if (contest.DeadLineStrategy == DeadLineStrategy.ByNumberOfParticipants && contest.Participants.Count >= contest.MaximumParticipants)
+                {
+                    return ContestStatus.ParticipationClosed;
+                }
+
+                return ContestStatus.Active;
+            }
+
+            return contest.Status;
+        }
     }
 }

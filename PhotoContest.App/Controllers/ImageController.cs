@@ -1,17 +1,14 @@
-﻿using System.Data.Entity;
-using AutoMapper;
-using Microsoft.AspNet.Identity;
-
-namespace PhotoContest.App.Controllers
+﻿namespace PhotoContest.App.Controllers
 {
-    using System;
-    using System.Web;
+    using AutoMapper;
     using Data.Repository;
     using Data.UnitOfWork;
     using PhotoContest.Models;
-    using System.Web.Mvc;
+    using System;
+    using System.Data.Entity;
     using System.Linq;
-    using AutoMapper.QueryableExtensions;
+    using System.Web;
+    using System.Web.Mvc;
     using ViewModels;
 
     [Authorize]
@@ -21,7 +18,6 @@ namespace PhotoContest.App.Controllers
         {
         }
 
-        // GET: Image
         public ActionResult UploadImage()
         {
             return PartialView();
@@ -38,23 +34,22 @@ namespace PhotoContest.App.Controllers
                 Name = image.FileName,
                 Path = path,
                 AuthorId = this.UserProfile.Id,
-                ContestId = contestId,
+                ContestId = contestId, 
                 DateAdded = DateTime.Now,
             };
             this.Data.Photos.Add(photo);
             this.Data.SaveChanges();
 
             return this.RedirectToAction("Details", "Contests", new { id = contestId });
-            // return this.View();
         }
 
         [AllowAnonymous]
-        public ActionResult GetImage(int imageId)
+        public ActionResult GetImage(int photoId)
         {
             var image = this.Data.Photos
                 .All()
                 .Include(x => x.Votes)
-                .FirstOrDefault(x => x.Id == imageId);
+                .FirstOrDefault(x => x.Id == photoId);
 
             if (image == null)
             {
@@ -68,10 +63,8 @@ namespace PhotoContest.App.Controllers
                 imageViewModel.UserHasVoted = image.Votes.Any(x => x.UserId == this.UserProfile.Id);
             }
 
-            var url = DropBoxRepository.Download(imageViewModel.Path);
-            imageViewModel.Url = url;
-
-            return this.PartialView(imageViewModel);
+            imageViewModel.Url = DropBoxRepository.Download(imageViewModel.Path);
+            return this.PartialView("_GetImagePartial", imageViewModel);
         }
 
         [HttpPost]
@@ -94,6 +87,7 @@ namespace PhotoContest.App.Controllers
                         ContestId = contestId,
                         Value = 1
                     });
+
                     this.Data.SaveChanges();
                 }
 
@@ -105,24 +99,3 @@ namespace PhotoContest.App.Controllers
         }
     }
 }
-
-
-//public ActionResult GetImage(int imageId)
-//{
-//    var image = this.Data.Photos
-//        .All()
-//        .Where(x => x.Id == imageId)
-//        .Project()
-//        .To<PhotoViewModel>()
-//        .FirstOrDefault();
-
-//    if (image == null)
-//    {
-//        return HttpNotFound();
-//    }
-
-//    var url = DropBoxRepository.Download(image.Path);
-//    image.Url = url;
-
-//    return this.PartialView(image);
-//}

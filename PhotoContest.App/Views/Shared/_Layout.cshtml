@@ -21,7 +21,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Active Contests", "Active", "Contests")</li>
+                        <li>@Html.ActionLink("Past Contest", "Past", "Contests")</li>
+                        <li>@Html.ActionLink("Your Contests", "Created", "Contests")</li>
+                        <li>@Html.ActionLink("Create Contest", "Create", "Contests")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -30,8 +36,10 @@
     <div class="body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Pinarcor Photo Contest</p>
+        <footer class="row">
+            <div class="panel-footer text-center">
+                <p>&copy; @DateTime.Now.Year - Pinarcor Photo Contest</p>
+            </div>
         </footer>
     </div>
    

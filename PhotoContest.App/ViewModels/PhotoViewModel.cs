@@ -4,6 +4,7 @@
     using PhotoContest.Models;
     using System.Linq;
     using AutoMapper;
+    using PhotoContest.Models.Enums;
 
     public class PhotoViewModel : IMapFrom<Photo>, IHaveCustomMappings
     {

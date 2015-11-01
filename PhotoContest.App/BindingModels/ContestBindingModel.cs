@@ -6,7 +6,7 @@
     using PhotoContest.Models;
     using PhotoContest.Models.Enums;
 
-    public class AddContestBindingModel : IMapTo<Contest>, IMapFrom<Contest>
+    public class ContestBindingModel : IMapTo<Contest>, IMapFrom<Contest>
     {
         public string CreatorId { get; set; }
 

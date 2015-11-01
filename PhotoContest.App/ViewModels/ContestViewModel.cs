@@ -1,7 +1,5 @@
-﻿
-namespace PhotoContest.App.ViewModels
+﻿namespace PhotoContest.App.ViewModels
 {
-    using AutoMapper;
     using System;
     using PhotoContest.Models;
     using Common.Mappings;
@@ -14,13 +12,17 @@ namespace PhotoContest.App.ViewModels
 
         public string Title { get; set; }
 
-        public string Description { get; set; }
+        public ContestStatus Status { get; set; }
 
         public ParticipationStrategy ParticipationStrategy { get; set; }
 
         public DateTime DateCreated { get; set; }
 
         public DateTime? DateEnd { get; set; }
+
+        public int? MaximumParticipants { get; set; }
+
+        public DeadLineStrategy DeadLineStrategy { get; set; }
 
         public IEnumerable<ParticipantViewModel> Participants { get; set; }
     }

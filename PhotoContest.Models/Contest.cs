@@ -28,6 +28,9 @@
         public string Description { get; set; }
 
         [Required]
+        public ContestStatus Status { get; set; }
+
+        [Required]
         public DateTime DateCreated { get; set; }
 
         public int NumberOfPrices { get; set; }
@@ -36,9 +39,6 @@
 
         public DateTime? DateEnd { get; set; }
 
-        public bool IsDissmised { get; set; }
-
-        public bool IsFinalized { get; set; }
 
         [Required]
         public string CreatorId { get; set; }

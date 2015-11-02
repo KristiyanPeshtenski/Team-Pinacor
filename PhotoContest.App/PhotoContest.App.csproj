@@ -52,6 +52,26 @@
       <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Glimpse.Ado, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.Ado.1.7.3\lib\net45\Glimpse.Ado.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.AspNet, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.AspNet.1.8.0\lib\net45\Glimpse.AspNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.Core, Version=1.8.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.1.8.6\lib\net45\Glimpse.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.EF6, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.EF6.1.6.5\lib\net45\Glimpse.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.Mvc5, Version=1.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.Mvc5.1.5.3\lib\net45\Glimpse.Mvc5.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -189,7 +209,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="BindingModels\AddContestBindingModel.cs" />
+    <Compile Include="BindingModels\ContestBindingModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ContestsController.cs" />
@@ -197,6 +217,7 @@
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -278,15 +299,13 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ContestViewModel.cshtml" />
     <Content Include="Views\Contests\Past.cshtml" />
-    <Content Include="Views\Contests\ActiveContests.cshtml" />
-    <None Include="Views\Contests\AddContest.cshtml" />
+    <Content Include="Views\Contests\Active.cshtml" />
+    <None Include="Views\Contests\Create.cshtml" />
     <Content Include="Views\Contests\Details.cshtml" />
     <None Include="Views\Contests\Created.cshtml" />
-    <Content Include="Views\Image\GetImage.cshtml" />
     <Content Include="Views\Image\UploadImage.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\PhotoViewModel.cshtml" />
-    <Content Include="Views\Shared\_UserLayout.cshtml" />
-    <Content Include="Views\User\_UserNavigatoinPartial.cshtml" />
+    <Content Include="Views\Contests\Edit.cshtml" />
+    <Content Include="Views\Image\_GetImagePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

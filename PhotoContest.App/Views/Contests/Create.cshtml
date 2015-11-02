@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
-@model PhotoContest.App.BindingModels.AddContestBindingModel
+@model PhotoContest.App.BindingModels.ContestBindingModel
 @{
-    Layout = "~/Views/Shared/_UserLayout.cshtml";
     ViewBag.Title = "Create Contest";
 }
 
@@ -10,7 +9,7 @@
 </div>
 <div class="row">
     <div class="col-md-10">
-        @using (Html.BeginForm("AddContest", "Contests", FormMethod.Post, new { @class = "form-horizontal" }))
+        @using (Html.BeginForm("Create", "Contests", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             @Html.AntiForgeryToken()
             <div class="form-group">

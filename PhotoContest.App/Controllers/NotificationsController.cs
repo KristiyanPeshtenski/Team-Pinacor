@@ -1,11 +1,8 @@
-﻿
-
-namespace PhotoContest.App.Controllers
+﻿namespace PhotoContest.App.Controllers
 {
     using System.Web.Mvc;
-    using Data.UnitOfWork;
     using Microsoft.AspNet.SignalR;
-    using PhotoContest.App.Hub;
+    using Hub;
 
     public class NotificationsController : Controller
     {

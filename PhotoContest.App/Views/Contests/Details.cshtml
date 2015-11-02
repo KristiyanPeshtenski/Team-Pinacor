@@ -6,9 +6,16 @@
 
 <h3>@Model.Title</h3>
 
-@if(Model.Status == ContestStatus.Dismissed)
+@if (Model.Status == ContestStatus.Dismissed)
 {
     <h2 class="text-danger"> Dismissed </h2>
+}
+
+@if (Request.IsAuthenticated &&
+                Model.Creator == this.User.Identity.Name &&
+                Model.ParticipationStrategy == ParticipationStrategy.Closed)
+{
+    @Html.Partial("_InvitationPartial")
 }
 
 <div>
@@ -58,6 +65,27 @@
             var buttonDiv = $("#vote-button-" + id);
             buttonDiv.empty();
         }
+
+        $(document).ready(function () {
+
+            $('#search').keyup(function (e) {
+                var searchQuery = $('#search').val();
+                $.getJSON("/Notifications/SearchUser", {
+
+                    query: searchQuery
+                },
+                function (data) {
+                    var div = $('#users');
+                    var ul = $('<ul>');
+                    $(div).html('');
+                    $.each(data, function (i, user) {
+                        var li = $('<li>', { id: user.Id, text: user.UserName });
+                        li.appendTo(ul);
+                    });
+                    ul.appendTo(div);
+                })
+            })
+        })
     </script>
 }
 

@@ -29,7 +29,7 @@
 
         public bool IsFull { get; set; }
 
-        public IEnumerable<ParticipantViewModel> Participants { get; set; }
+        public IEnumerable<MinifiedUserViewModel> Participants { get; set; }
 
         public void CreateMappings(IConfiguration configuration)
         {

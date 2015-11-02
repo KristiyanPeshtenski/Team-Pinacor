@@ -30,6 +30,8 @@
 
         public bool IsFull { get; set; }
 
+        public ParticipationStrategy ParticipationStrategy { get; set; }
+
         public IEnumerable<PhotoViewModel> Photos { get; set; }
 
         public void CreateMappings(IConfiguration configuration)

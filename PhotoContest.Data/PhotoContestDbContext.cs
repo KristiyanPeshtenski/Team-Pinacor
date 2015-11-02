@@ -22,7 +22,8 @@ namespace PhotoContest.Data
 
         public IDbSet<Vote> Votes { get; set; }
 
-        
+        public IDbSet<Notification> Notifications { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
@@ -46,11 +47,15 @@ namespace PhotoContest.Data
                 .WithMany(x => x.OwnContests)
                 .WillCascadeOnDelete(false);
 
-            //modelBuilder.Entity<Vote>()
-            //           .HasRequired<Photo>(s => s.Photo)
-            //           .WithMany(s => s.Votes)
-            //           .HasForeignKey(s => s.PhotoId);
+            modelBuilder.Entity<Notification>()
+                .HasRequired(x => x.Sender)
+                .WithMany(x => x.SentNotifications)
+                .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Notification>()
+                .HasRequired(x => x.Receiver)
+                .WithMany(x => x.ReceivedNotifications)
+                .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
         }

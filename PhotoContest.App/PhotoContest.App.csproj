@@ -237,7 +237,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ContestDetailsViewModel .cs" />
     <Compile Include="ViewModels\ContestViewModel.cs" />
-    <Compile Include="ViewModels\ParticipantViewModel.cs" />
+    <Compile Include="ViewModels\MinifiedUserViewModel.cs" />
     <Compile Include="ViewModels\PhotoViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +270,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\NotificationsLoader.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -316,6 +317,8 @@
     <Content Include="Views\Image\UploadImage.cshtml" />
     <Content Include="Views\Contests\Edit.cshtml" />
     <Content Include="Views\Image\_GetImagePartial.cshtml" />
+    <Content Include="Views\Shared\_NotificationView.cshtml" />
+    <Content Include="Views\Shared\_InvitationPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

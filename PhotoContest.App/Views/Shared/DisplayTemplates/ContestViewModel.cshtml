@@ -5,36 +5,37 @@
 <div class="col-md-4">
     <a href="@Url.Action("Details", "Contests", new { id = Model.Id })" class="details-link">
         <h3>@Model.Title</h3>
-        @if (Model.Status == ContestStatus.Dismissed)
-        {
-            <h2 class="text-danger"> Dissmised </h2>
-        }
-
-        <p>Created on: @String.Format("{0:M/d/yyyy}", @Model.DateCreated)</p>
-
-        @{
-            if (Model.DeadLineStrategy == DeadLineStrategy.ByTime)
-            {
-                <p>End: @String.Format("{0:M/d/yyyy}", @Model.DateEnd)</p>
-            }
-            else
-            {
-                <p> Participants: @Model.Participants.Count() / @Model.MaximumParticipants</p>
-            }
-        }
-
-        <p>Status: @Model.Status.ToString() </p>
-        <p> Participation Strategy: @Model.ParticipationStrategy</p>
-
-        @{
-            if (Request.IsAuthenticated
-                && Model.ParticipationStrategy == ParticipationStrategy.Open
-                && !(Model.Participants.Any(x => x.Id == this.User.Identity.GetUserId()))
-                && Model.Status == ContestStatus.Active)
-            {
-                @Html.ActionLink("Participate", "Participate", "Contests", new { contestId = @Model.Id }, new { @class = "btn btn-success btn-sm" })
-            }
-        }
     </a>
+    <p>@Model.IsFull.ToString()</p>
+    @if (Model.Status == ContestStatus.Dismissed)
+    {
+        <h2 class="text-danger"> Dissmised </h2>
+    }
+
+    <p>Created on: @String.Format("{0:M/d/yyyy}", @Model.DateCreated)</p>
+
+    @{
+        if (Model.DeadLineStrategy == DeadLineStrategy.ByTime)
+        {
+            <p>End: @String.Format("{0:M/d/yyyy}", @Model.DateEnd)</p>
+        }
+        else
+        {
+            <p> Participants: @Model.Participants.Count() / @Model.MaximumParticipants</p>
+        }
+    }
+
+    <p>Status: @Model.Status.ToString() </p>
+    <p> Participation Strategy: @Model.ParticipationStrategy</p>
+
+    @{
+        if (Request.IsAuthenticated
+            && Model.ParticipationStrategy == ParticipationStrategy.Open
+            && !(Model.Participants.Any(x => x.Id == this.User.Identity.GetUserId()))
+            && Model.Status == ContestStatus.Active)
+        {
+            @Html.ActionLink("Participate", "Participate", "Contests", new { contestId = @Model.Id }, new { @class = "btn btn-success btn-sm" })
+        }
+    }
 </div>
 

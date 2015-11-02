@@ -24,7 +24,9 @@
         {
             var activeContests = this.Data.Contests
                 .All()
-                .Where(x => x.Status == ContestStatus.Active);
+                .Where(x => x.Status == ContestStatus.Active)
+                .Project()
+                .To<ContestViewModel>();
 
             foreach (var contest in activeContests)
             {
@@ -32,9 +34,7 @@
             }
 
             var updatedContests = activeContests
-                .Where(x => x.Status == ContestStatus.Active)
-                .Project()
-                .To<ContestViewModel>();
+                .Where(x => x.Status == ContestStatus.Active);
 
             return this.View(updatedContests);
         }
@@ -227,7 +227,7 @@
             return user.ContestsParticipateIn.Any(x => x.Id == contestId);
         }
 
-        private ContestStatus UpdateContestStatus(Contest contest)
+        private ContestStatus UpdateContestStatus(ContestViewModel contest)
         {
             if(contest.Status != ContestStatus.Dismissed && contest.Status != ContestStatus.Finished)
             {
@@ -235,7 +235,7 @@
                 {
                     return ContestStatus.UploadClosed;
                 }
-                if (contest.DeadLineStrategy == DeadLineStrategy.ByNumberOfParticipants && contest.Participants.Count >= contest.MaximumParticipants)
+                if (contest.DeadLineStrategy == DeadLineStrategy.ByNumberOfParticipants && contest.Participants.AsQueryable().Count() >= contest.MaximumParticipants)
                 {
                     return ContestStatus.ParticipationClosed;
                 }

@@ -8,7 +8,7 @@
 </div>
 <div class="row">
     <div class="col-md-10">
-        @using (Html.BeginForm("AddContest", "Contests", FormMethod.Post, new { @class = "form-horizontal" }))
+        @using (Html.BeginForm("Create", "Contests", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             @Html.AntiForgeryToken()
             <div class="form-group">
@@ -54,7 +54,7 @@
             </div>
             <div class="form-controll">
                 <div class="col-md-offset-4">
-                    <input type="submit" value="Add Contest" class="btn btn-primary"/>
+                    <input type="submit" value="Create" class="btn btn-primary"/>
                     @Html.ActionLink("Cancel", "Created", "Contests", new { @class = "btn btn-primary" })
                 </div>
             </div>

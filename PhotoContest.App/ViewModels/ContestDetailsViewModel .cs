@@ -26,14 +26,20 @@
 
         public string Creator { get; set; }
 
-        public IEnumerable<PhotoViewModel> Photos { get; set; }
+        public bool IsExpired { get; set; }
 
-        // Strategies ?
+        public bool IsFull { get; set; }
+
+        public IEnumerable<PhotoViewModel> Photos { get; set; }
 
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Contest, ContestDetailsViewModel>()
-                .ForMember(x => x.Creator, cnf => cnf.MapFrom(m => m.Creator.UserName));
+                .ForMember(x => x.Creator, cnf => cnf.MapFrom(m => m.Creator.UserName))
+                .ForMember(x => x.IsExpired,
+                    cnf => cnf.MapFrom(c => c.DateEnd == null ? false : c.DateEnd >= DateTime.Now))
+                .ForMember(x => x.IsFull,
+                    cnf => cnf.MapFrom(c => c.MaximumParticipants == null ? false : c.Participants.Count >= c.MaximumParticipants));
         }
     }
 }

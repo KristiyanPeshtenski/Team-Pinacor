@@ -5,8 +5,9 @@
     using Common.Mappings;
     using PhotoContest.Models.Enums;
     using System.Collections.Generic;
+    using AutoMapper;
 
-    public class ContestViewModel : IMapFrom<Contest>
+    public class ContestViewModel : IMapFrom<Contest>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -24,6 +25,17 @@
 
         public DeadLineStrategy DeadLineStrategy { get; set; }
 
+        public bool IsExpired { get; set; }
+
+        public bool IsFull { get; set; }
+
         public IEnumerable<ParticipantViewModel> Participants { get; set; }
+
+        public void CreateMappings(IConfiguration configuration)
+        {
+            configuration.CreateMap<Contest, ContestViewModel>()
+                .ForMember(x => x.IsExpired, cnf => cnf.MapFrom(c => c.DateEnd == null ? false :  c.DateEnd >= DateTime.Now))
+                .ForMember(x => x.IsFull, cnf => cnf.MapFrom(c => c.MaximumParticipants == null ? false : c.Participants.Count >= c.MaximumParticipants));
+        }
     }
 }

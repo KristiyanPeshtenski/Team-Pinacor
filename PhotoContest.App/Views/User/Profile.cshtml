@@ -1,0 +1,12 @@
+﻿<div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+
+        @if (Request.IsAuthenticated)
+        {
+            <li>@Html.ActionLink("Contests You own", "Created", "Contests")</li>
+            <li>@Html.ActionLink("Contests You participate in", "MyContests", "User")</li>
+            <li>@Html.ActionLink("Your Photos", "Photos", "User")</li>
+
+        }
+    </ul>
+</div>

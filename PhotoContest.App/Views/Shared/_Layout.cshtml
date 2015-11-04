@@ -23,9 +23,9 @@
                 <ul class="nav navbar-nav">
                     @if (Request.IsAuthenticated)
                     {
+                        <li>@Html.ActionLink("Your Profile", "Profile", "User")</li>
                         <li>@Html.ActionLink("Active Contests", "Active", "Contests")</li>
                         <li>@Html.ActionLink("Past Contest", "Past", "Contests")</li>
-                        <li>@Html.ActionLink("Your Contests", "Created", "Contests")</li>
                         <li>@Html.ActionLink("Create Contest", "Create", "Contests")</li>
                     }
                 </ul>
@@ -34,7 +34,7 @@
         </div>
     </div>
     <div class="body-content">
-        @Html.Partial("_NotificationView");
+        @Html.Partial("_NotificationView")
         @RenderBody()
         <hr />
         <footer class="row">

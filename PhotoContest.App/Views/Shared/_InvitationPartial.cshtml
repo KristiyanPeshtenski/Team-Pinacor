@@ -1,7 +1,28 @@
-﻿<form>
-    <input type="text" id="search" class="form-control" />
-    <input type="submit" value="search" class="btn btn-sm" />
+﻿@model PhotoContest.App.ViewModels.ContestDetailsViewModel
+<p>Invite Users</p>
+<form>
+    @Html.AntiForgeryToken()
+    <input type="text" id="search" class="form-control"/>
+    @*<input type="submit" value="search" class="btn btn-sm" />*@
 </form>
 
 <div id="users"></div>
 
+
+
+
+
+@*<div id="users"></div>*@
+
+@*@using (Ajax.BeginForm("Invite", "Notifications", new { senderName = Model.Creator, receiverName = "sss", contestId = Model.Id }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = @Model.Id + "-votes-count",
+        InsertionMode = InsertionMode.Replace,
+        OnSuccess = "onVoteSuccess('" + @Model.Id + "')"
+    }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="text" id="search" class="form-control" />
+        <input type="submit" value="Invite" class="btn btn-sm" />
+    }*@

@@ -1,4 +1,5 @@
-﻿@using PhotoContest.Models.Enums
+﻿@using Microsoft.AspNet.Identity
+@using PhotoContest.Models.Enums
 @model PhotoContest.App.ViewModels.ContestDetailsViewModel
 @{
     ViewBag.Title = "Details";
@@ -12,8 +13,8 @@
 }
 
 @if (Request.IsAuthenticated &&
-                Model.Creator == this.User.Identity.Name &&
-                Model.ParticipationStrategy == ParticipationStrategy.Closed)
+                                         Model.Creator == this.User.Identity.Name &&
+                                         Model.ParticipationStrategy == ParticipationStrategy.Closed)
 {
     @Html.Partial("_InvitationPartial")
 }
@@ -60,32 +61,69 @@
 
 @section scripts
 {
+
     <script>
         function onVoteSuccess(id) {
             var buttonDiv = $("#vote-button-" + id);
             buttonDiv.empty();
         }
 
-        $(document).ready(function () {
+        $(document).ready(function() {
 
-            $('#search').keyup(function (e) {
+            function inviteUser(senderName, receiverName, contestId) {
+                $.ajax({
+                    url: '/Notifications/Invite',
+                    type: "post",
+                    dataType: 'text',
+                    data: {
+                        senderName: senderName,
+                        receiverName: receiverName,
+                        contestId: contestId
+                    },
+                    success: function(data) {
+                        $(receiverName).remove();
+                        
+
+                        
+                    },
+                    error: function(data) {
+
+                    }
+                });
+            }
+
+            $('#search').keyup(function(e) {
                 var searchQuery = $('#search').val();
                 $.getJSON("/Notifications/SearchUser", {
-
                     query: searchQuery
                 },
-                function (data) {
-                    var div = $('#users');
-                    var ul = $('<ul>');
-                    $(div).html('');
-                    $.each(data, function (i, user) {
-                        var li = $('<li>', { id: user.Id, text: user.UserName });
-                        li.appendTo(ul);
+                    function(data) {
+
+                        var div = $('#users');
+                        var ul = $('<ul>');
+                        $(div).html('');
+                        $.each(data, function(i, user) {
+                            var li = $('<li>', { id: user.Id, text: user.UserName, class: "invites" });
+                            var button = $('<input>', { type: "button", id: user.UserName, value: "Invite" });
+                            $(button).click(function() {
+                                var owner = $("#userName").text();
+
+                                inviteUser(owner, user.UserName, @Model.Id);
+                            });
+                            button.appendTo(li);
+                            li.appendTo(ul);
+
+                        });
+                        ul.appendTo(div);
+
+                        @*$('input[type="button"][value="Invite"]').click(function () {
+                            inviteUser("iii", "sss", @Model.Id);
+                        });*@
                     });
-                    ul.appendTo(div);
-                })
-            })
-        })
+
+            });
+        });
+
     </script>
 }
 

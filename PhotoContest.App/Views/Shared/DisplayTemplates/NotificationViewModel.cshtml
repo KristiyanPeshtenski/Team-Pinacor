@@ -1,0 +1,15 @@
+﻿@model PhotoContest.App.ViewModels.NotificationViewModel
+
+<div id="invitation-@Model.Id">
+    @Model.Message @Model.ContestTitle by @Model.Sender 
+    @using (Ajax.BeginForm("ReadNotification", "Notifications", new { notificationId = Model.Id }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "invitation-" + @Model.Id,
+        InsertionMode = InsertionMode.Replace,
+    }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="submit" name="read" id="read-@Model.Id" value="OK" />
+    }
+</div>

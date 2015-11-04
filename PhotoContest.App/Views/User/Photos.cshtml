@@ -1,0 +1,19 @@
+﻿@model  IEnumerable<PhotoContest.App.ViewModels.PhotoViewModel>
+
+    <div id="photos">
+        <h2>Your Photos</h2>
+
+        @{
+            if (Model.Any())
+            {
+                foreach (var photo in Model)
+                {
+                    @Html.Action("GetImage", "Image", new { photoId = photo.Id });
+                }
+            }
+            else
+            {
+                <span>You have no photos yet. </span>
+            }
+        }
+    </div>

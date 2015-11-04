@@ -19,7 +19,7 @@
             <p>End: @String.Format("{0:M/d/yyyy}", @contest.DateEnd)</p>
             <p>Participation Strategy: @contest.ParticipationStrategy</p>
             @Html.ActionLink("Edit", "Edit", "Contests", new { id = contest.Id } ,new { @class=  "btn btn-info btn-sm" })
-            @Html.ActionLink("Finalize", "Finalize", "Contests", new { @class = "btn btn-warning btn-sm" })
+            @Html.ActionLink("Finalize", "Finalize", "Contests", new { id = contest.Id } ,new { @class = "btn btn-warning btn-sm" })
             @Html.ActionLink("Dismiss", "Dismiss", "Contests", new { id = contest.Id } ,new { @class = "btn btn-danger btn-sm" })
             @Html.ActionLink("Details", "Details", "Contests", new { id = contest.Id }, new { @class = "btn btn-primary" })
         </div>

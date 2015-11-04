@@ -13,6 +13,8 @@
 
         public string Title { get; set; }
 
+        public string CreatorId { get; set; }
+
         public ContestStatus Status { get; set; }
 
         public ParticipationStrategy ParticipationStrategy { get; set; }

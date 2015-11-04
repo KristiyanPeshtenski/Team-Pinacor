@@ -1,0 +1,14 @@
+﻿@using PhotoContest.App.ViewModels
+@model IEnumerable<MinifiedUserViewModel>
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h4 class="panel-title"> Participants </h4>
+    </div>
+    <div class="panel-body">
+        @foreach (var participant in Model)
+        {
+            <p id="@participant.Id"> @participant.UserName </p>
+        }
+    </div>
+</div>

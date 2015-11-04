@@ -39,7 +39,6 @@
 
         public DateTime? DateEnd { get; set; }
 
-
         [Required]
         public string CreatorId { get; set; }
 
@@ -53,11 +52,13 @@
 
         public RewardStrategy RewardStrategy { get; set; }
 
+
         public ICollection<User> Participants
         {
             get { return this.participants; }
             set { this.participants = value; }
         }
+
 
         public ICollection<User> InvitedUsers
         {

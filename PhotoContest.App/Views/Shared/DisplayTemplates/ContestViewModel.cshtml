@@ -32,10 +32,12 @@
         if (Request.IsAuthenticated
             && Model.ParticipationStrategy == ParticipationStrategy.Open
             && !(Model.Participants.Any(x => x.Id == this.User.Identity.GetUserId()))
-            && Model.Status == ContestStatus.Active)
+            && Model.Status == ContestStatus.Active
+            && Model.CreatorId != this.User.Identity.GetUserId()
+            && !Model.IsFull
+            && !Model.IsExpired)
         {
             @Html.ActionLink("Participate", "Participate", "Contests", new { contestId = @Model.Id }, new { @class = "btn btn-success btn-sm" })
         }
     }
 </div>
-

@@ -11,6 +11,7 @@
     using PhotoContest.Models;
     using System.Data.Entity;
     using PhotoContest.Models.Enums;
+    using System.Collections.Generic;
 
     public class ContestsController : BaseController
     {
@@ -28,15 +29,7 @@
                 .Project()
                 .To<ContestViewModel>();
 
-            foreach (var contest in activeContests)
-            {
-                contest.Status = this.UpdateContestStatus(contest);
-            }
-
-            var updatedContests = activeContests
-                .Where(x => x.Status == ContestStatus.Active);
-
-            return this.View(updatedContests);
+            return this.View(activeContests);
         }
 
         [AllowAnonymous]
@@ -44,8 +37,7 @@
         {
             var pastContests = this.Data.Contests
                 .All()
-                .Where(x => x.Status == ContestStatus.Finished ||
-                   x.Status == ContestStatus.Dismissed)
+                .Where(x => x.Status == ContestStatus.Finished || x.Status == ContestStatus.Dismissed)
                 .OrderByDescending(x => x.DateEnd)
                 .Project()
                 .To<ContestViewModel>();
@@ -59,7 +51,19 @@
             var contestContent = this.Data.Contests
                 .All()
                 .Include(x => x.Photos)
+                .Include(x => x.Participants)
+                .Include(x => x.Winners)
                 .FirstOrDefault(x => x.Id == id);
+
+            if (contestContent == null)
+            {
+                return this.HttpNotFound();
+            }
+
+            if(contestContent.Status == ContestStatus.Dismissed || contestContent.Status == ContestStatus.Finished)
+            {
+                return this.RedirectToAction("FinishedDetails", new { id = id });
+            }
 
             if (this.User.Identity.IsAuthenticated)
             {
@@ -67,8 +71,32 @@
             }
 
             var contestViewModel = Mapper.Map<ContestDetailsViewModel>(contestContent);
+            contestViewModel.Photos.OrderByDescending(x => x.DateAdded);
 
             return View(contestViewModel);
+        }
+
+        public ActionResult FinishedDetails(int id)
+        {
+            var contestContent = this.Data.Contests
+                .All()
+                .Include(x => x.Photos)
+                .FirstOrDefault(x => x.Id == id);
+
+            if (contestContent == null)
+            {
+                return this.HttpNotFound();
+            }
+
+            if (contestContent.Status == ContestStatus.Active || contestContent.Status == ContestStatus.ParticipationClosed || contestContent.Status == ContestStatus.UploadClosed)
+            {
+                return this.RedirectToAction("Details", new { id = id });
+            }
+
+            var contestViewModel = Mapper.Map<FinishedContestViewModel>(contestContent);
+            contestViewModel.Photos.OrderBy(x => x.Votes);
+            
+            return this.View(contestViewModel);
         }
 
         public ActionResult Create()
@@ -202,48 +230,68 @@
             return this.RedirectToAction("Details", new { id = contest.Id });
         }
 
-        //public ActionResult Finalize(int id)
-        //{
-        //    var contest = this.Data.Contests.GetById(id);
+        public ActionResult Finalize(int id)
+        {
+            var contest = this.Data.Contests
+                .All()
+                .Where(x => x.Id == id)
+                .Include(x => x.Photos)
+                .FirstOrDefault();
 
-        //    if (contest == null)
-        //    {
-        //        return this.HttpNotFound();
-        //    }
-        //    if (contest.CreatorId != this.UserProfile.Id)
-        //    {
-        //        return new HttpUnauthorizedResult();
-        //    }
+            if (contest == null)
+            {
+                return this.HttpNotFound();
+            }
+            if (contest.CreatorId != this.UserProfile.Id)
+            {
+                return new HttpUnauthorizedResult();
+            }
 
-        //    contest.Status = ContestStatus.Finished;
-        //    this.Data.SaveChanges();
+            var winners = 
+                contest.Photos
+                .OrderByDescending(p => p.Votes.Count)
+                .Take(contest.NumberOfPrices)
+                .Select(p => p.Author)
+                .ToList();
 
-        //    this.GetWinners(Contest contest);
-        //}
+            foreach (var winner in winners)
+            {
+                contest.Winners.Add(winner);
+            }
+                 
+            contest.Status = ContestStatus.Finished;
+            this.Data.SaveChanges();
 
+            //Get Winners
+            //Send Notifications to participants for the end of the contest 
+            
+            return this.RedirectToAction("Details", new { id = id });
+        }
 
         private bool HasParticipateInContest(int contestId, User user)
         {
             return user.ContestsParticipateIn.Any(x => x.Id == contestId);
         }
 
-        private ContestStatus UpdateContestStatus(ContestViewModel contest)
+        private void UpdateContestStatus(IEnumerable<ContestViewModel> contests)
         {
-            if(contest.Status != ContestStatus.Dismissed && contest.Status != ContestStatus.Finished)
-            {
-                if (contest.DeadLineStrategy == DeadLineStrategy.ByTime && contest.DateEnd <= DateTime.Now)
-                {
-                    return ContestStatus.UploadClosed;
-                }
-                if (contest.DeadLineStrategy == DeadLineStrategy.ByNumberOfParticipants && contest.Participants.AsQueryable().Count() >= contest.MaximumParticipants)
-                {
-                    return ContestStatus.ParticipationClosed;
-                }
 
-                return ContestStatus.Active;
+            foreach (var contest in contests)
+            {
+                if (contest.Status != ContestStatus.Dismissed && contest.Status != ContestStatus.Finished)
+                {
+                    if (contest.DeadLineStrategy == DeadLineStrategy.ByTime && contest.IsExpired)
+                    {
+                        contest.Status = ContestStatus.UploadClosed;
+                    }
+                    if (contest.DeadLineStrategy == DeadLineStrategy.ByNumberOfParticipants && contest.IsFull)
+                    {
+                        contest.Status = ContestStatus.ParticipationClosed;
+                    }
+                }
             }
 
-            return contest.Status;
+            this.Data.SaveChanges();
         }
     }
 }

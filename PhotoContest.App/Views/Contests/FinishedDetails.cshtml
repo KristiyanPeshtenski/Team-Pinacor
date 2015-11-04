@@ -1,0 +1,36 @@
+﻿@using PhotoContest.Models.Enums
+@model PhotoContest.App.ViewModels.FinishedContestViewModel
+
+<h3>@Model.Title</h3>
+
+@if (Model.Status == ContestStatus.Dismissed)
+{
+    <h2 class="text-danger"> Dismissed </h2>
+}
+
+<div>
+    <p>@Html.DisplayNameFor(x => x.Description): @Html.DisplayFor(x => x.Description)</p>
+    <p>@Html.DisplayNameFor(x => x.Creator): @Html.DisplayFor(x => x.Creator)</p>
+    <p>@Html.DisplayNameFor(x => x.DateCreated): @Html.DisplayFor(x => x.DateCreated)</p>
+</div>
+
+<hr />
+
+<div id="photos">
+    <h2> Final Standings </h2>
+
+    @{
+        if (Model.Photos.Any())
+        {
+            foreach (var photo in Model.Photos)
+            {
+                @Html.Action("GetImage", "Image", new { photoId = photo.Id });
+            }
+        }
+        else
+        {
+            <span> No photos yet. </span>
+        }
+    }
+</div>
+

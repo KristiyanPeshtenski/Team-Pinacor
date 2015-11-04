@@ -34,13 +34,12 @@ namespace PhotoContest.Data
                 .WithMany(x => x.ContestsParticipateIn)
                 .Map(contest => contest.MapLeftKey("ContestId").MapRightKey("UserId")
                     .ToTable("ContestParticipants"));
-                
 
             modelBuilder.Entity<Contest>()
                 .HasMany(x => x.Winners)
                 .WithMany(x => x.WinContests)
                 .Map(contest => contest.MapLeftKey("ContestId").MapRightKey("UserId")
-                    .ToTable("ContestWinners")); ;
+                    .ToTable("ContestWinners"));
 
             modelBuilder.Entity<Contest>()
                 .HasRequired(x => x.Creator)

@@ -236,7 +236,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ContestDetailsViewModel .cs" />
+    <Compile Include="ViewModels\ContestInfoViewModel.cs" />
     <Compile Include="ViewModels\ContestViewModel.cs" />
+    <Compile Include="ViewModels\ContestWinnersViewModel.cs" />
+    <Compile Include="ViewModels\FinishedContestViewModel.cs" />
     <Compile Include="ViewModels\MinifiedUserViewModel.cs" />
     <Compile Include="ViewModels\PhotoViewModel.cs" />
   </ItemGroup>
@@ -319,6 +322,10 @@
     <Content Include="Views\Image\_GetImagePartial.cshtml" />
     <Content Include="Views\Shared\_NotificationView.cshtml" />
     <Content Include="Views\Shared\_InvitationPartial.cshtml" />
+    <Content Include="Views\Contests\Finalize.cshtml" />
+    <Content Include="Views\Contests\FinishedDetails.cshtml" />
+    <Content Include="Views\Contests\_ParticipantsPartial.cshtml" />
+    <Content Include="Views\Contests\_WinnersPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

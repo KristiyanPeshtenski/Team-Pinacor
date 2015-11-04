@@ -13,6 +13,8 @@
 
         IGenericRepository<Photo> Photos { get; }
 
+        IGenericRepository<Notification> Notifications { get; }
+
         int SaveChanges();
     }
 }

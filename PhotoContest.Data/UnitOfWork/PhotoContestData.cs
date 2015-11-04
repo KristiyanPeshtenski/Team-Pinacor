@@ -24,20 +24,25 @@
         public IGenericRepository<Contest> Contests
         {
             get { return this.GetRepository<Contest>(); }
-            
+
         }
 
         public IGenericRepository<Vote> Votes
         {
             get { return this.GetRepository<Vote>(); }
-            
+
         }
 
         public IGenericRepository<Photo> Photos
         {
             get { return this.GetRepository<Photo>(); }
         }
-       
+
+        public IGenericRepository<Notification> Notifications
+        {
+            get { return this.GetRepository<Notification>(); }
+        }
+
 
         public int SaveChanges()
         {

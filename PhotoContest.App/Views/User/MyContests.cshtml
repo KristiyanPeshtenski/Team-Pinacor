@@ -1,0 +1,17 @@
+﻿@model IEnumerable<PhotoContest.App.ViewModels.ContestViewModel>
+
+<h2>Contests You participate in</h2>
+
+@{
+    if (Model.Any())
+    {
+        <div class="row">
+            @Html.DisplayFor(x => x)
+
+        </div>
+    }
+    else
+    {
+        <span>No contests You participate in. </span>
+    }
+}

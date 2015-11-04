@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace PhotoContest.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class Notification
     {
         [Key]
@@ -17,14 +13,16 @@ namespace PhotoContest.Models
 
         public int ContestId { get; set; }
 
-        public Contest Contest { get; set; }
+        public virtual Contest Contest { get; set; }
 
         public string SenderId { get; set; }
 
-        public User Sender { get; set; }
+        public virtual User Sender { get; set; }
 
         public string ReceiverId { get; set; }
 
-        public User Receiver { get; set; }
+        public virtual User Receiver { get; set; }
+
+        public bool IsRead { get; set; }
     }
 }

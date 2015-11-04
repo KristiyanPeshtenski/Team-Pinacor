@@ -1,4 +1,6 @@
-﻿namespace PhotoContest.App.Controllers
+﻿using System.Data.Entity;
+
+namespace PhotoContest.App.Controllers
 {
     using System;
     using System.Linq;

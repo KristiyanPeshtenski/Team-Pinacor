@@ -1,4 +1,7 @@
-﻿namespace PhotoContest.App.Controllers
+﻿using System.Collections.Generic;
+using Microsoft.AspNet.Identity;
+
+namespace PhotoContest.App.Controllers
 {
     using System;
     using System.Web.Mvc;
@@ -29,7 +32,51 @@
                 .Project()
                 .To<ContestViewModel>();
 
+
+            foreach (var contest in activeContests)
+            {
+                contest.Status = this.UpdateContestStatus(contest);
             return this.View(activeContests);
+            }
+
+        }
+
+            var updatedContests = activeContests
+                .Where(x => x.Status == ContestStatus.Active);
+
+            var activeViewModel = new ActiveViewModel();
+            activeViewModel.ActiveContests = updatedContests;
+
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var userId = this.User.Identity.GetUserId();
+                var currentUser = this.Data.Users.All().Where(x => x.Id == userId).FirstOrDefault();
+
+                List<NotificationViewModel> nots = new List<NotificationViewModel>();
+
+                if (currentUser.ReceivedNotifications.Any())
+                {
+                    foreach (var n in currentUser.ReceivedNotifications)
+                    {
+                        var not = new NotificationViewModel
+                        {
+                            Id = n.Id,
+                            ReceiverId = n.ReceiverId,
+                            ContestTitle = n.Contest.Title,
+                            Sender = n.Sender.UserName,
+                            SenderId = n.SenderId,
+                            ContestId = n.ContestId,
+                            Message = n.Message
+                        };
+                        nots.Add(not);
+                    }
+                }
+
+
+                activeViewModel.Notifications = nots;
+            }
+
+            return this.View(activeViewModel);
         }
 
         [AllowAnonymous]
@@ -275,8 +322,7 @@
 
         private void UpdateContestStatus(IEnumerable<ContestViewModel> contests)
         {
-
-            foreach (var contest in contests)
+            if (contest.Status != ContestStatus.Dismissed && contest.Status != ContestStatus.Finished)
             {
                 if (contest.Status != ContestStatus.Dismissed && contest.Status != ContestStatus.Finished)
                 {

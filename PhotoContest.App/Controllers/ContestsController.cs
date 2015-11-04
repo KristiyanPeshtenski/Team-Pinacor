@@ -32,15 +32,6 @@ namespace PhotoContest.App.Controllers
                 .Project()
                 .To<ContestViewModel>();
 
-
-            foreach (var contest in activeContests)
-            {
-                contest.Status = this.UpdateContestStatus(contest);
-            return this.View(activeContests);
-            }
-
-        }
-
             var updatedContests = activeContests
                 .Where(x => x.Status == ContestStatus.Active);
 
@@ -72,11 +63,11 @@ namespace PhotoContest.App.Controllers
                     }
                 }
 
-
                 activeViewModel.Notifications = nots;
             }
 
             return this.View(activeViewModel);
+
         }
 
         [AllowAnonymous]
@@ -107,7 +98,7 @@ namespace PhotoContest.App.Controllers
                 return this.HttpNotFound();
             }
 
-            if(contestContent.Status == ContestStatus.Dismissed || contestContent.Status == ContestStatus.Finished)
+            if (contestContent.Status == ContestStatus.Dismissed || contestContent.Status == ContestStatus.Finished)
             {
                 return this.RedirectToAction("FinishedDetails", new { id = id });
             }
@@ -142,7 +133,7 @@ namespace PhotoContest.App.Controllers
 
             var contestViewModel = Mapper.Map<FinishedContestViewModel>(contestContent);
             contestViewModel.Photos.OrderBy(x => x.Votes);
-            
+
             return this.View(contestViewModel);
         }
 
@@ -294,7 +285,7 @@ namespace PhotoContest.App.Controllers
                 return new HttpUnauthorizedResult();
             }
 
-            var winners = 
+            var winners =
                 contest.Photos
                 .OrderByDescending(p => p.Votes.Count)
                 .Take(contest.NumberOfPrices)
@@ -305,13 +296,13 @@ namespace PhotoContest.App.Controllers
             {
                 contest.Winners.Add(winner);
             }
-                 
+
             contest.Status = ContestStatus.Finished;
             this.Data.SaveChanges();
 
             //Get Winners
             //Send Notifications to participants for the end of the contest 
-            
+
             return this.RedirectToAction("Details", new { id = id });
         }
 
@@ -320,24 +311,24 @@ namespace PhotoContest.App.Controllers
             return user.ContestsParticipateIn.Any(x => x.Id == contestId);
         }
 
-        private void UpdateContestStatus(IEnumerable<ContestViewModel> contests)
-        {
-            if (contest.Status != ContestStatus.Dismissed && contest.Status != ContestStatus.Finished)
-            {
-                if (contest.Status != ContestStatus.Dismissed && contest.Status != ContestStatus.Finished)
-                {
-                    if (contest.DeadLineStrategy == DeadLineStrategy.ByTime && contest.IsExpired)
-                    {
-                        contest.Status = ContestStatus.UploadClosed;
-                    }
-                    if (contest.DeadLineStrategy == DeadLineStrategy.ByNumberOfParticipants && contest.IsFull)
-                    {
-                        contest.Status = ContestStatus.ParticipationClosed;
-                    }
-                }
-            }
-
-            this.Data.SaveChanges();
-        }
+        //private void UpdateContestStatus(IEnumerable<ContestViewModel> contests)
+        //{
+        //    if (contest.Status != ContestStatus.Dismissed && contest.Status != ContestStatus.Finished)
+        //    {
+        //        if (contest.Status != ContestStatus.Dismissed && contest.Status != ContestStatus.Finished)
+        //        {
+        //            if (contest.DeadLineStrategy == DeadLineStrategy.ByTime && contest.IsExpired)
+        //            {
+        //                contest.Status = ContestStatus.UploadClosed;
+        //            }
+        //            if (contest.DeadLineStrategy == DeadLineStrategy.ByNumberOfParticipants && contest.IsFull)
+        //            {
+        //                contest.Status = ContestStatus.ParticipationClosed;
+        //            }
+        //        }
+        //    }
+        //    this.Data.SaveChanges();
+        //}
     }
 }
+

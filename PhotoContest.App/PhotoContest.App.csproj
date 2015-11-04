@@ -235,12 +235,14 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ActiveViewModel.cs" />
     <Compile Include="ViewModels\ContestDetailsViewModel .cs" />
     <Compile Include="ViewModels\ContestInfoViewModel.cs" />
     <Compile Include="ViewModels\ContestViewModel.cs" />
     <Compile Include="ViewModels\ContestWinnersViewModel.cs" />
     <Compile Include="ViewModels\FinishedContestViewModel.cs" />
     <Compile Include="ViewModels\MinifiedUserViewModel.cs" />
+    <Compile Include="ViewModels\NotificationViewModel.cs" />
     <Compile Include="ViewModels\PhotoViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -266,6 +268,8 @@
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -326,11 +330,14 @@
     <Content Include="Views\Contests\FinishedDetails.cshtml" />
     <Content Include="Views\Contests\_ParticipantsPartial.cshtml" />
     <Content Include="Views\Contests\_WinnersPartial.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\NotificationViewModel.cshtml" />
+    <Content Include="Views\User\MyContests.cshtml" />
+    <Content Include="Views\User\Photos.cshtml" />
+    <Content Include="Views\User\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

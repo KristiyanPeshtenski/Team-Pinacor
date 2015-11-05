@@ -6,10 +6,11 @@
     {
         HttpMethod = "POST",
         UpdateTargetId = "invitation-" + @Model.Id,
-        InsertionMode = InsertionMode.Replace,
+        InsertionMode = InsertionMode.Replace
     }))
     {
         @Html.AntiForgeryToken()
         <input type="submit" name="read" id="read-@Model.Id" value="OK" />
     }
 </div>
+

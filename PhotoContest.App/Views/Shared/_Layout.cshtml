@@ -23,10 +23,10 @@
                 <ul class="nav navbar-nav">
                     @if (Request.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Your Profile", "Profile", "User")</li>
-                        <li>@Html.ActionLink("Active Contests", "Active", "Contests")</li>
-                        <li>@Html.ActionLink("Past Contest", "Past", "Contests")</li>
-                        <li>@Html.ActionLink("Create Contest", "Create", "Contests")</li>
+                        <li>@Html.ActionLink("Your Profile", "Profile", "User", new { area = "" }, new { })</li>
+                        <li>@Html.ActionLink("Active Contests", "Active", "Contests", new { area = "" }, new { })</li>
+                        <li>@Html.ActionLink("Past Contest", "Past", "Contests", new { area = "" }, new { })</li>
+                        <li>@Html.ActionLink("Create Contest", "Create", "Contests", new { area = "" }, new { })</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

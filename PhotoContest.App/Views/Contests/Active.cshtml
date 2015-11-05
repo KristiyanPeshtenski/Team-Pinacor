@@ -5,7 +5,7 @@
 }
 
 
-@if (Request.IsAuthenticated && Model.Notifications.Any(x => x.ReceiverId == User.Identity.GetUserId() && x.IsRead == false))
+@if (Request.IsAuthenticated && Model.Notifications.Any(x => x.ReceiverId == User.Identity.GetUserId() && (!x.IsRead)))
 {
     @Html.DisplayFor(x => x.Notifications)
 }

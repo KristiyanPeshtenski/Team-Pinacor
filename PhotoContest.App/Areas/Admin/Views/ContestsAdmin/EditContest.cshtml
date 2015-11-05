@@ -1,0 +1,86 @@
+﻿@model PhotoContest.App.BindingModels.ContestBindingModel
+
+@{
+    ViewBag.Title = "Update Contest";
+}
+
+<div class="col-md-offset-4">
+    <h3>@ViewBag.Title</h3>
+</div>
+<div class="row">
+    <div class="col-md-10">
+        @using (Html.BeginForm("EditContest", "ContestsAdmin", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(x => x.Title, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.Title, new { @class = "form-control", id = "Title" })
+                    @Html.ValidationMessageFor(x => x.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Description, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.RewardStrategy, new { @class = "col-md-4 control-label", Disabled = "true" })
+                <div class="col-md-8"></div>
+                @Html.EnumDropDownListFor(x => x.RewardStrategy, new { @class = "form-control", id = "reward-strategy", Disabled = "true" })
+            </div>
+            <div class="form-group" id="number-of-winners"></div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.DeadLineStrategy, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.EnumDropDownListFor(x => x.DeadLineStrategy, new { @class = "form-control", id = "deadline-strategy", Disabled = "true" })
+                </div>
+            </div>
+            if (Model.DeadLineStrategy == 0)
+            {
+                <div class="form-group">
+                    @Html.LabelFor(x => x.DateEnd, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(x => x.DateEnd, new { @class = "form-control", value = Model.DateEnd })
+                        @Html.ValidationMessageFor(x => x.DateEnd, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    @Html.LabelFor(x => x.MaximumParticipants, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(x => x.MaximumParticipants, new { @class = "form-control", value = Model.MaximumParticipants })
+                        @Html.ValidationMessageFor(x => x.MaximumParticipants, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+            <div class="form-group" id="deadline-container"></div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.ParticipationStrategy, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.EnumDropDownListFor(x => x.ParticipationStrategy, new { @class = "form-control", Disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.VotingStrategy, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.EnumDropDownListFor(x => x.VotingStrategy, new { @class = "form-control", Disabled = "true" })
+                </div>
+            </div>
+            <div class="form-controll">
+                <div class="col-md-offset-4">
+                    <input type="submit" value="Edit" class="btn btn-primary" />
+                    @Html.ActionLink("Cancel", "Index", "HomeAdmin", new { area = "Admin" }, new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+

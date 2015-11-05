@@ -5,18 +5,15 @@
 @{
     ViewBag.Title = "Details";
 }
-
 <h3>@Model.Title</h3>
-
 @{
     if (Model.Status == ContestStatus.Dismissed)
     {
         <h4> Dismissed </h4>
     }
 }
-
-<div class="col-lg-4">
-    <div>
+<div class="row">
+    <div class="col-lg-4">
         <p>@Html.DisplayNameFor(x => x.Description): @Html.DisplayFor(x => x.Description)</p>
         <p>@Html.DisplayNameFor(x => x.Creator): @Html.DisplayFor(x => x.Creator)</p>
         <p>@Html.DisplayNameFor(x => x.DateCreated): @Html.DisplayFor(x => x.DateCreated)</p>
@@ -31,8 +28,7 @@
             }
         }
     </div>
-
-    <div class="col-lg-4">
+    <div class="col-lg-4 pull-right">
         @{
             if (Model.Status == ContestStatus.Finished)
             {
@@ -45,14 +41,12 @@
         }
     </div>
 </div>
-
 @if (Request.IsAuthenticated &&
-    Model.Creator == this.User.Identity.Name &&
-    Model.ParticipationStrategy == ParticipationStrategy.Closed)
+                Model.Creator == this.User.Identity.Name &&
+                Model.ParticipationStrategy == ParticipationStrategy.Closed)
 {
     @Html.Partial("_InvitationPartial")
 }
-
 <div class="row">
     @{
         if (Request.IsAuthenticated &&
@@ -76,10 +70,9 @@
 
     }
 </div>
-
 @if (Request.IsAuthenticated &&
-    this.ViewBag.HasUserPartisipate &&
-    (Model.Status == ContestStatus.Active || Model.Status == ContestStatus.ParticipationClosed))
+                this.ViewBag.HasUserPartisipate &&
+                (Model.Status == ContestStatus.Active || Model.Status == ContestStatus.ParticipationClosed))
 {
     <h4> Upload Your photo </h4>
 
@@ -91,30 +84,64 @@
         <input type="submit" class="btn btn-primary" value="Upload" />
     }
 }
+@if (Model.Status == ContestStatus.Finished)
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="photos" class="panel-danger">
+                <div class="panel-heading">
+                    <h2 class="panel-title" style="text-align: center; font-size: 20px;"> Final Standing </h2>
+                </div>
+                <div class="panel-body">
 
-// Make Render Photo Partial and render photos for active photos or finished contest
+                    @if (Model.Photos.Any())
+                    {
+                        foreach (var photo in Model.Photos)
+                        {
+                                @Html.Action("GetImage", "Image", new { photoId = photo.Id });
+                        }
+                    }
+                    else
+                    {
+                        <span> No photos yet. </span>
+                    }
 
-<div id="photos">
-    <h2>Photos</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="photos" class="panel-success">
+                <div class="panel-heading">
+                    <h2 class="panel-title" style="text-align: center; font-size: 20px;">Photos</h2>
+                </div>
+                <div class="panel-body">
 
-    @{
-        if (Model.Photos.Any())
-        {
-            foreach (var photo in Model.Photos)
-            {
-                @Html.Action("GetImage", "Image", new { photoId = photo.Id });
-            }
-        }
-        else
-        {
-            <span> No photos yet. </span>
-        }
-    }
-</div>
+                    @if (Model.Photos.Any())
+                    {
+                        foreach (var photo in Model.Photos)
+                        {
+                            @Html.Action("GetImage", "Image", new { photoId = photo.Id });
+                        }
+                    }
+                    else
+                    {
+                        <span> No photos yet. </span>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 
 @section scripts
 {
-
     <script>
         function onVoteSuccess(id) {
             var buttonDiv = $("#vote-button-" + id);
@@ -135,9 +162,6 @@
                     },
                     success: function(data) {
                         $(receiverName).remove();
-                        
-
-                        
                     },
                     error: function(data) {
 
@@ -151,7 +175,6 @@
                     query: searchQuery
                 },
                     function(data) {
-
                         var div = $('#users');
                         var ul = $('<ul>');
                         $(div).html('');
@@ -179,5 +202,4 @@
 
     </script>
 }
-
 

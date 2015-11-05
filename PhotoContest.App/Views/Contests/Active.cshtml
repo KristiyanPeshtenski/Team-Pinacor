@@ -1,15 +1,14 @@
 ﻿@using Microsoft.AspNet.Identity
-@model PhotoContest.App.ViewModels.ActiveViewModel
+@model IEnumerable<PhotoContest.App.ViewModels.ContestViewModel>
 @{
     ViewBag.Title = "Active Contest";
 }
 
-
-@if (Request.IsAuthenticated && Model.Notifications.Any(x => x.ReceiverId == User.Identity.GetUserId() && x.IsRead == false))
+@if (Request.IsAuthenticated)
 {
-    @Html.DisplayFor(x => x.Notifications)
+    @Html.Action("ShowNotifications", "Notifications")
 }
 
 <div class="row">
-    @Html.DisplayFor(x => x.ActiveContests)
+    @Html.DisplayFor(x => x)
 </div>

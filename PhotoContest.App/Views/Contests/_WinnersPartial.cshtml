@@ -3,12 +3,20 @@
 
 <div class="panel-danger">
     <div class="panel-heading">
-        <h4 class="panel-title"> Participants </h4>
+        <h4 class="panel-title"> Winners </h4>
     </div>
     <div class="panel-body">
-        @foreach (var participant in Model)
-        {
-            <p id="@participant.Id"> @participant.UserName </p>
-        }
+        <table>
+            @foreach (var participant in Model)
+            {
+                <tr>
+                    <td id="@participant.Id">
+                        @participant.UserName
+                    </td>
+                </tr>
+                @*<p id="@participant.Id"> @participant.UserName </p>*@
+            }
+        </table>
+        
     </div>
 </div>

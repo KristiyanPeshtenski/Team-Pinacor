@@ -1,0 +1,20 @@
+﻿@model IEnumerable<PhotoContest.App.ViewModels.NotificationViewModel>
+
+@foreach (var notification in Model)
+{
+    <div id="invitation-@notification.Id" class="alert alert-dismissable alert-info" >
+        @notification.Message @notification.ContestTitle by @notification.Sender
+        @using (Ajax.BeginForm("ReadNotification", "Notifications", new { notificationId = notification.Id }, new AjaxOptions()
+        {
+            HttpMethod = "POST",
+            UpdateTargetId = "invitation-" + @notification.Id,
+            InsertionMode = InsertionMode.Replace
+        }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" name="read" id="read-@notification.Id" value="OK" />
+        }
+    </div>
+}
+
+

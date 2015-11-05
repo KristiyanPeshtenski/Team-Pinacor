@@ -26,47 +26,23 @@ namespace PhotoContest.App.Controllers
         [AllowAnonymous]
         public ActionResult Active()
         {
-            var activeContests = this.Data.Contests
+            var contests = this.Data.Contests
                 .All()
+                .Where(x => x.Status == ContestStatus.Active);
+
+            foreach (var contest in contests)
+            {
+                contest.Status = this.UpdateContestStatus(contest);
+            }
+
+            this.Data.SaveChanges();
+
+            var activeContests = contests
                 .Where(x => x.Status == ContestStatus.Active)
                 .Project()
                 .To<ContestViewModel>();
 
-            var updatedContests = activeContests
-                .Where(x => x.Status == ContestStatus.Active);
-
-            var activeViewModel = new ActiveViewModel();
-            activeViewModel.ActiveContests = updatedContests;
-
-            if (this.User.Identity.IsAuthenticated)
-            {
-                var userId = this.User.Identity.GetUserId();
-                var currentUser = this.Data.Users.All().Where(x => x.Id == userId).FirstOrDefault();
-
-                List<NotificationViewModel> nots = new List<NotificationViewModel>();
-
-                if (currentUser.ReceivedNotifications.Any())
-                {
-                    foreach (var n in currentUser.ReceivedNotifications)
-                    {
-                        var not = new NotificationViewModel
-                        {
-                            Id = n.Id,
-                            ReceiverId = n.ReceiverId,
-                            ContestTitle = n.Contest.Title,
-                            Sender = n.Sender.UserName,
-                            SenderId = n.SenderId,
-                            ContestId = n.ContestId,
-                            Message = n.Message
-                        };
-                        nots.Add(not);
-                    }
-                }
-
-                activeViewModel.Notifications = nots;
-            }
-
-            return this.View(activeViewModel);
+            return this.View(activeContests);
 
         }
 
@@ -86,21 +62,16 @@ namespace PhotoContest.App.Controllers
         [AllowAnonymous]
         public ActionResult Details(int id)
         {
-            var contestContent = this.Data.Contests
+            var contest = this.Data.Contests
                 .All()
                 .Include(x => x.Photos)
                 .Include(x => x.Participants)
                 .Include(x => x.Winners)
                 .FirstOrDefault(x => x.Id == id);
 
-            if (contestContent == null)
+            if (contest == null)
             {
                 return this.HttpNotFound();
-            }
-
-            if (contestContent.Status == ContestStatus.Dismissed || contestContent.Status == ContestStatus.Finished)
-            {
-                return this.RedirectToAction("FinishedDetails", new { id = id });
             }
 
             if (this.User.Identity.IsAuthenticated)
@@ -108,33 +79,17 @@ namespace PhotoContest.App.Controllers
                 ViewBag.HasUserPartisipate = this.HasParticipateInContest(id, this.UserProfile);
             }
 
-            var contestViewModel = Mapper.Map<ContestDetailsViewModel>(contestContent);
-            contestViewModel.Photos.OrderByDescending(x => x.DateAdded);
+            var contestViewModel = Mapper.Map<ContestDetailsViewModel>(contest);
+            if (contest.Status == ContestStatus.Finished)
+            {
+                contestViewModel.Photos.OrderByDescending(x => x.Votes);
+            }
+            else
+            {
+                contestViewModel.Photos.OrderByDescending(x => x.DateAdded);
+            }
 
             return View(contestViewModel);
-        }
-
-        public ActionResult FinishedDetails(int id)
-        {
-            var contestContent = this.Data.Contests
-                .All()
-                .Include(x => x.Photos)
-                .FirstOrDefault(x => x.Id == id);
-
-            if (contestContent == null)
-            {
-                return this.HttpNotFound();
-            }
-
-            if (contestContent.Status == ContestStatus.Active || contestContent.Status == ContestStatus.ParticipationClosed || contestContent.Status == ContestStatus.UploadClosed)
-            {
-                return this.RedirectToAction("Details", new { id = id });
-            }
-
-            var contestViewModel = Mapper.Map<FinishedContestViewModel>(contestContent);
-            contestViewModel.Photos.OrderBy(x => x.Votes);
-
-            return this.View(contestViewModel);
         }
 
         public ActionResult Create()
@@ -311,24 +266,25 @@ namespace PhotoContest.App.Controllers
             return user.ContestsParticipateIn.Any(x => x.Id == contestId);
         }
 
-        //private void UpdateContestStatus(IEnumerable<ContestViewModel> contests)
-        //{
-        //    if (contest.Status != ContestStatus.Dismissed && contest.Status != ContestStatus.Finished)
-        //    {
-        //        if (contest.Status != ContestStatus.Dismissed && contest.Status != ContestStatus.Finished)
-        //        {
-        //            if (contest.DeadLineStrategy == DeadLineStrategy.ByTime && contest.IsExpired)
-        //            {
-        //                contest.Status = ContestStatus.UploadClosed;
-        //            }
-        //            if (contest.DeadLineStrategy == DeadLineStrategy.ByNumberOfParticipants && contest.IsFull)
-        //            {
-        //                contest.Status = ContestStatus.ParticipationClosed;
-        //            }
-        //        }
-        //    }
-        //    this.Data.SaveChanges();
-        //}
+        private ContestStatus UpdateContestStatus(Contest contest)
+        {
+            if (contest.Status != ContestStatus.Dismissed && contest.Status != ContestStatus.Finished)
+            {
+                if (contest.Status != ContestStatus.Dismissed && contest.Status != ContestStatus.Finished)
+                {
+                    if (contest.DeadLineStrategy == DeadLineStrategy.ByTime && contest.DateEnd <= DateTime.Now)
+                    {
+                        return ContestStatus.UploadClosed;
+                    }
+                    if (contest.DeadLineStrategy == DeadLineStrategy.ByNumberOfParticipants && contest.Participants.Count >= contest.MaximumParticipants)
+                    {
+                        return ContestStatus.ParticipationClosed;
+                    }
+                }
+            }
+
+            return contest.Status;
+        }
     }
 }
 

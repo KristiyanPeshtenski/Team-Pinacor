@@ -90,6 +90,19 @@ namespace PhotoContest.App.Controllers
             return new EmptyResult();
         }
 
+        [System.Web.Mvc.Authorize]
+        public ActionResult ShowNotifications()
+        {
+            var notifications = this.UserProfile.ReceivedNotifications
+                .Where(x => !x.IsRead)
+                .AsQueryable()
+                .Project()
+                .To<NotificationViewModel>()
+                .ToList();
+
+            return this.PartialView("_NotificationsPartial", notifications);
+        }
+
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult ReadNotification(int notificationId)

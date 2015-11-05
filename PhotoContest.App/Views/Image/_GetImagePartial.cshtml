@@ -1,18 +1,20 @@
 ﻿@model PhotoContest.App.ViewModels.PhotoViewModel
 
-<div class="panel panel-default col-md-2 col-lg-4">
-    <div class="panel-heading">
-        <span> Author:  @Model.Author Posted On: @Model.DateAdded </span>
-    </div>
-    <div class="panel-body">
-        <img class="img-thumbnail" id="image-small" src="@Model.Url" alt="@Model.Name" />
-    </div>
-    <div class="panel-footer">
-        <span id="@Model.Id-votes-count"> Votes: @Model.Votes </span>
-        @if (Request.IsAuthenticated && !Model.UserHasVoted)
-        {
-            <div id="vote-button-@Model.Id">
-                @using (Ajax.BeginForm("Vote", "Image", new { photoId = Model.Id, contestId = Model.ContestId }, new AjaxOptions()
+    <div class="col-lg-4">
+        <div class="panel-success">
+            <div class="panel-heading">
+                <h5 class="panel-title" style="text-align: center"> Author:  @Model.Author Posted On: @Model.DateAdded </h5>
+            </div>
+            <div class="panel-body">
+                <img class="img-responsive" id="image-small" src="@Model.Url" alt="@Model.Name" />
+            </div>
+            <div class="panel-footer">
+                <div id="@Model.Id-votes-count">
+                    Votes: @Model.Votes
+                    @if (Request.IsAuthenticated && !Model.UserHasVoted)
+            {
+                        <div id="vote-button-@Model.Id">
+                            @using (Ajax.BeginForm("Vote", "Image", new { photoId = Model.Id, contestId = Model.ContestId }, new AjaxOptions()
                 {
                     HttpMethod = "POST",
                     UpdateTargetId = @Model.Id + "-votes-count",
@@ -20,10 +22,13 @@
                     OnSuccess = "onVoteSuccess('" + @Model.Id + "')"
                 }))
                 {
-                    @Html.AntiForgeryToken()
-                    <input type="submit" name="name" value="Vote for this photo" />
-                }
+                                @Html.AntiForgeryToken()
+                                <input type="submit" name="name" value="Vote for this photo" />
+                            }
+                        </div>
+                    }
+                </div>
             </div>
-        }
+        </div>
     </div>
-</div>
+    
